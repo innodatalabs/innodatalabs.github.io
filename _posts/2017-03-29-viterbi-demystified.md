@@ -183,18 +183,18 @@ However, we can still use Viterbi if we add an ad-hoc transition matrix that exp
 For example, if we want to enforce a rule that a sunny day is never followed by a rainy day, we just postulate
 that transition matrix $$m$$ is the same for all $$t$$ and has the following structure:
 ```
-0     0    0
-0     0    0
--1000 0    0
+   0     0     0
+   0     0     0
+1000     0     0
 ```
 Then, we can use the same logits to decode the sequence of weather predictions. It is guaranteed to obey this
 constraint!
 
 If additionally we want to forbid transitions from rainy to sunny, we would use the following transition matrix:
 ```
-0     0    -1000
-0     0    0
--1000 0    0
+    0    0 -1000
+    0    0     0
+-1000    0     0
 ```
 
 Thus, we are taking the original solution to a sequence labeling problem, and add external constraint. Then we find the best
@@ -229,3 +229,30 @@ Formally, the rules are: label 'I' can only be preceded by 'I' or 'B'. In other 
 
 This can readily be expressed in terms of a transition matrix, and Viterbi is used to ensure that we always return a sensible 
 IOB label sequence.
+
+## XML structure constraint
+When doing prediction on a text of a structural document (think XML), there are additional constraints if we want to
+express our predictions as additional XML tags. The additional XML tags we are adding should not contradict the
+hierarchical structure of XML document.
+
+Again, these constrains can be expressed in terms of transition matrix. This time for every position in our sequence we will have
+a different constraint - we can no longer use $$m$$ that does not depend on index $$t$$. So building the matrix $$m$$ becomes more
+complicated. But onse it is built, we will employ standard Viterbi decoder and get back label sequence that is guaranteed to
+play well with the structure of the input XML document.
+
+## Viterbi extensions
+Apart from asking Viterbi algorithm to find the best sequence, one can ask: give me the *next best* sequence. A greedy client can
+even demand this: give me $$N$$ best sequences, sorted by the "bestness".
+
+Luckily, a simple modification to Viterbi algorithm allows one to efficiently compute *next best* and *next next best*, and so on.
+
+This can be used to estimate the confidence and suspicious places in the predicted sequence. The informal reasoning is this:
+lets get 10 best decodings and compare the very best decoding to the rest 9 decodings.
+
+If there is a significant drop in the value of loss function when we go from the very best sequence to the next best, then
+system is quite confident in the prediction. Conversely, if losses of the very best and next best decoding are similar, then
+system thinks that both sequences are equally likely. Look where they differ and that would be a location where machine
+is not sure with the prediction.
+
+## Summary
+When doing sequence labeling, Viterbi algorithm is very useful and broadly applicable - get to know it!
