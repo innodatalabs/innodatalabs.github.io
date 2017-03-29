@@ -2,10 +2,12 @@
 title: Viterbi algorithm, demystified
 author: Mike Kroutikov
 math: true
-published: true
+published: false
 ---
-When dealing with sequences, Viterbi algorithm and Viterbi decoding pops up regularly. This algorithm is usually described in the
-context of Hidden Markov Models. However, the application of this algorithm is not limited to HMMs. Besides, HMMs lately fell out
+When dealing with sequences, [Viterbi algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
+and Viterbi decoding pops up regularly. This algorithm is usually described in the
+context of [Hidden Markov Models](https://en.wikipedia.org/wiki/Hidden_Markov_model). 
+However, the application of this algorithm is not limited to HMMs. Besides, HMMs lately fell out
 of fashion as better Machine Learning techniques have been developed.
 
 ## Definitions
