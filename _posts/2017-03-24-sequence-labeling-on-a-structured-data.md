@@ -219,7 +219,7 @@ Both these problems move us into the domain of [*constrained label decoding*](ht
 Among all possible label assignments we must pick the one that minimises the total loss *given the structural constrains*.
 
 The problem of IOB constraints can be addressed by applying [Viterbi-style decoding](https://en.wikipedia.org/wiki/Viterbi_algorithm)
-with the transition matrix that defines the constraint (and identity emission matrix). I will create another blog post
+with the transition matrix that defines the constraint (and identity emission matrix). We will create another blog post
 detailing how Viterbi can be adapted for constrained label decoding.
 
 The problem of satisfying XML structure constraint is just a bit more complicated. To understand it better, 
