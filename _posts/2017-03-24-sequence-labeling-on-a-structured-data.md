@@ -1,6 +1,6 @@
 ---
 title: Sequence Labeling on a Structured Data
-author: Mike Kroutikov and Davod Nadeau
+author: Mike Kroutikov and David Nadeau
 published: true
 ---
 Sequence labeling is one of the classic ML tasks, that include well-studied problems of Part-of-Speech (POS) tagging,
