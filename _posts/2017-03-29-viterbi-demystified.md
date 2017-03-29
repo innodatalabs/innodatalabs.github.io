@@ -11,7 +11,7 @@ of fashion as better Machine Learning techniques have been developed.
 ## Definitions
 Bear with me here, please. This is the most tedious and boring part - explaining the notations.
 
-We have a discrete sequence that starts at index $$t=1$$ and ends at index $$t=T$$. Here $T$ is the length of the sequence.
+We have a discrete sequence that starts at index $$t=1$$ and ends at index $$t=T$$. Here $$T$$ is the length of the sequence.
 At each index $$t$$ there are $$S$$ possible states. The sequence (sometimes called _path_) is when we decide which state at each
 index was chosen. State valiable $$s(t)$$ can take any value in the range $$1\dots S$$ at each index $$t$$.
 
@@ -137,7 +137,7 @@ $$
 where $$q$$ can take any value in the range $$1\dots S$$.
 
 If we know solution for the constrained problem, we can find the full solution by just cycling thru all values of $$q$$ and finding the
-one that yields the minimal value of $$L$$. Thus, knowing $$L[s \vet s(T)=q]$$ we can easily give the answer to the original problem.
+one that yields the minimal value of $$L$$. Thus, knowing $$L[s \vert s(T)=q]$$ we can easily give the answer to the original problem.
 
 Now, back to the Dynamic Programming approach. We pretend that *we know the answer already for a bit shorter problem*. 
 Specifically, we pretend that we can easily compute the best constrained objective $$L[s \vert s(T-1)=q]$$. Assuming this,
@@ -161,7 +161,7 @@ Now, if we know solution $$L^*_{T-1}(q)$$ to a constrained problem of size $$T-1
 constrained problem of size $$T$$, $$L^*_T(r)$$, because:
 
 $$
-L^*_T(r) = \argmin_q L^*_{T-1} + l(T, r) + m(T-1, q, r)
+L^*_T(r) = \textrm{argmin}_q L^*_{T-1} + l(T, r) + m(T-1, q, r)
 $$
 
 To finsh the hard part, lets note that solution for a problem with size 1 is super easy (as there is no pairwise term
@@ -180,6 +180,7 @@ In the classical sequence labeling (e.g. [POS tagging](https://en.wikipedia.org/
 are used and local loss is used for label decoding.
 
 However, we can still use Viterbi if we add an ad-hoc transition matrix that expresses some additional knowledge.
+
 For example, if we want to enforce a rule that a sunny day is never followed by a rainy day, we just postulate
 that transition matrix $$m$$ is the same for all $$t$$ and has the following structure:
 ```
