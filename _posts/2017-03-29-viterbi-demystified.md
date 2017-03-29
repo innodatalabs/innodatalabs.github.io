@@ -24,7 +24,13 @@ and `sunny=2`.
 
 Here is one possible sequence:
 ```
-sunny(2)  sunny(2)  cloudy(1)  rainy(0) rainy(0) cloudy(1) sunny(2)
+sunny(2)  
+sunny(2)  
+cloudy(1)  
+rainy(0) 
+rainy(0) 
+cloudy(1) 
+sunny(2)
 ```
 Or, in short, our `s(t)` is:
 ```
