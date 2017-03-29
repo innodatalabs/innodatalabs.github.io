@@ -165,11 +165,11 @@ L^*_T(r) = \textrm{argmin}_q L^*_{T-1} + l(T, r) + m(T-1, q, r)
 $$
 
 To finsh the hard part, lets note that solution for a problem with size 1 is super easy (as there is no pairwise term
-in the optimization objective). Viterbi will start with sequsence of size 1 and grow the solution till it reaches final
+in the optimization objective). Viterbi will start with sequence of size 1 and grow the solution till it reaches final
 length of $$T$$. The complexity is $$O(S^2T)$$, and space needed is $$O(ST)$$.
 
 Again, returning to our imaginary problem that has 10 states and sequence of length 80, computational complexity is
-$$O(10^2 80) = O(8000)$$, and space needed is $$O(800)$$ - very manageable!
+$$O(10^2 \times 80) = O(8000)$$, while space needed is $$O(800)$$ - very manageable!
 
 ## Viterbi and transition constraints
 Traditionally, Viterbi is used in ML methods like [HMMs](https://en.wikipedia.org/wiki/Hidden_Markov_model)
