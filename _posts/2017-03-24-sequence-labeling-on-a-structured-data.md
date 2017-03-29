@@ -155,13 +155,13 @@ Well, we did not yet define this approach, did we? Lets for now state that
 
 One way of doing this would be to tokenize only CDATA portion of the XML, and treat tags and tag attributes as features
 ```
-La             B-doc  B-chapter  O
-cinquième      I-doc  I-chapter  O
-planète        I-doc  I-chapter  O
-était          I-doc  I-chapter  O
-très           I-doc  I-chapter  B-i
-curieuse       I-doc  I-chapter  I-i
-.              I-doc  I-chapter  O
+La             feats=[doc,chapter]
+cinquième      feats=[doc,chapter]
+planète        feats=[doc,chapter]
+était          feats=[doc,chapter]
+très           feats=[doc,chapter,i]
+curieuse       feats=[doc,chapter,i]
+.              feats=[doc,chapter]
 ```
 Somehow this approach feels better than both previous ones. We do not tokenize control information (tags), and we do preserve
 the control information in the form of token features.
@@ -177,13 +177,13 @@ This is somewhat contrieved, but still. Note that `<i>` tag covers only half of 
 Practical solution is to change tokenization such that it is always consistent with XML tagging.
 The rule is: XML start and end tags induce token break:
 ```
-and       O
-they      O
-lived     O
-happily   O
-ev        O
-er        B-i
-after     O
+and       feats=[]
+they      feats=[]
+lived     feats=[]
+happily   feats=[i]
+ev        feats=[i]
+er        feats=[]
+after     feats=[]
 ```
 We are essentially assuming that input document has XML tagging that is sensical with respect to the text content. It is just
 an assumption.
