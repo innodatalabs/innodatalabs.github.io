@@ -51,7 +51,7 @@ Practically, there are specific popular forms of $$L$$ dependency on $$s$$. Choi
 the model. Good choice will predict weather reliably. Bad choice will fail to do so.
 
 ### Local loss
-Somewhat trivial, but still reasonable model.
+Somewhat trivial, but still a reasonable model.
 
 $$
 L[s] = \sum_{t=1}^T l(t, s(t))
@@ -129,7 +129,7 @@ Yet we can efficiently find the best sequence exploiting the pairwise structure 
 Viterbi algorithm is an instance of a dynamic programming class of algorithms.
 
 First that we do in DP is *we pretend we know the solution*. To elaborate, lets first introduce a constrained optimization problem:
-we asked to optimize objective function $$L[s]$$ with the additional condition that sequence $$s(t)$$ ends at a predefined state $$q$$.
+we are asked to optimize objective function $$L[s]$$ with the additional condition that sequence $$s(t)$$ ends at a specific state $$q$$.
 I will write this optimization objective as:
 
 $$
@@ -139,9 +139,10 @@ $$
 where $$q$$ can take any value in the range $$1\dots S$$.
 
 If we know solution for the constrained problem, we can find the full solution by just cycling thru all values of $$q$$ and finding the
-one that yields the minimal value of $$L$$. Thus, knowing $$L[s \vert s(T)=q]$$ we can easily give the answer to the original problem.
+one that yields the minimal value of $$L$$. Thus, knowing $$L[s \vert s(T)=q]$$ we can easily provide the answer for 
+the original problem.
 
-Now, back to the Dynamic Programming approach. We pretend that *we know the answer already for a bit shorter problem*. 
+Now, back to the Dynamic Programming. We pretend that *we know the answer already for a bit shorter problem*. 
 Specifically, we pretend that we can easily compute the best constrained objective $$L[s \vert s(T-1)=q]$$. Assuming this,
 we notice that to find the solution to the original problem we just need to consider the last step of our sequence.
 
@@ -200,13 +201,13 @@ If additionally we want to forbid transitions from rainy to sunny, we would use 
 -1000    0     0
 ```
 
-Thus, we are taking the original solution to a sequence labeling problem, and add external constraint. Then we find the best
-sequence that minimizes loss under the given constraint.
+Thus, we are taking the original solution to a sequence labeling problem, and add external transitoin constraint.
+Then we find the best sequence that minimizes loss under the given constraint.
 
 To recap, we can use Viterbi to find solutions to sequence labeling problems under additional transition constrains.
 
 ## IOB constraint
-One important transition constraint arises when one uses popular
+One important transition constraint arises when we use popular
 [IOB label encoding](https://en.wikipedia.org/wiki/Inside_Outside_Beginning).
 
 Indeed, in IOB sequence there are some transitions that are not expected, given the meaning of IOB labeling. For example,
@@ -230,31 +231,33 @@ China B-location
 
 Formally, the rules are: label 'I' can only be preceded by 'I' or 'B'. In other words, transition from 'O' to 'I' is not allowed.
 
-This can readily be expressed in terms of a transition matrix, and Viterbi is used to ensure that we always return a sensible 
+This can readily be expressed in terms of a transition matrix, and Viterbi can be used to ensure that we always return a sensible 
 IOB label sequence.
 
 ## XML structure constraint
 When doing prediction on a text of a structural document (think XML), there are additional constraints if we want to
-express our predictions as additional XML tags. The additional XML tags we are adding should not contradict the
+express our predictions as additional XML tags. The additional XML tags we are injecting should not contradict the
 hierarchical structure of XML document.
 
 Again, these constrains can be expressed in terms of transition matrix. This time for every position in our sequence we will have
 a different constraint - we can no longer use $$m$$ that does not depend on index $$t$$. So building the matrix $$m$$ becomes more
-complicated. But onse it is built, we will employ standard Viterbi decoder and get back label sequence that is guaranteed to
+complicated. But once it is built, we will employ standard Viterbi decoder and get back label sequence that is guaranteed to
 play well with the structure of the input XML document.
 
 ## Viterbi extensions
 Apart from asking Viterbi algorithm to find the best sequence, one can ask: give me the *next best* sequence. A greedy client can
-even demand this: give me $$N$$ best sequences, sorted by the "bestness".
+even demand this: give me $$N$$ best sequences, sorted by their "bestness".
 
 Luckily, a simple modification to Viterbi algorithm allows one to efficiently compute *next best* and *next next best*, and so on.
 
-This can be used to estimate the confidence and suspicious places in the predicted sequence. The informal reasoning is this:
-lets get 10 best decodings and compare the very best decoding to the rest 9 decodings.
+This can be used to estimate confidence of the predicted sequence and to locate suspicious places where prediction is not so
+sure. 
+
+The informal reasoning is this: lets get 10 best decodings and compare the very best decoding to the rest 9 decodings.
 
 If there is a significant drop in the value of loss function when we go from the very best sequence to the next best, then
 system is quite confident in the prediction. Conversely, if losses of the very best and next best decoding are similar, then
-system thinks that both sequences are equally likely. Look where they differ and that would be a location where machine
+system thinks that both sequences are almost equally likely. Look where they differ and that would be a location where machine
 is not sure with the prediction.
 
 ## Summary
