@@ -9,7 +9,7 @@ context of Hidden Markov Models. However, the application of this algorithm is n
 of fashion as better Machine Learning techniques have been developed.
 
 ## Definitions
-Bear with me here, please. This is the most tedious and boring part - to explain the notations.
+Bear with me here, please. This is the most tedious and boring part - explaining the notations.
 
 We have a discrete sequence that starts at index $$t=1$$ and ends at index $$t=T$$. Here $T$ is the length of the sequence.
 At each index $$t$$ there are $$S$$ possible states. The sequence (sometimes called _path_) is when we decide which state at each
@@ -103,11 +103,11 @@ today and tomorrow. We introduced a matrix $$m(t, s, q)$$ that controls the tran
 "a potential with pairwise interactions". In the context of HMMs term $$m$$ is called *transition probabilities*.
 
 For a given $$t$$, $$m$$ is a matrix $$S\times S$$ that tells us how probable is the transition from state $$s$$ to state $$q$$.
-In our weather predition example, such a matrix may look like:
+In our weather prediction example, such a matrix may look like:
 ```
-0       2.3     1000.0
-5.3     1.5    4.2
-1000.0  3.3    0.11
+   0.0    2.3    1000.0
+   5.3    1.5       4.2
+1000.0    3.3       0.1
 ```
 If we choose a path that switches from `rainy(0)` to `cloudy(1)` we will get additional loss of $$m(t, 0, 1)$$, or 5.3.
 Note that for simplicity in this example $$m$$ is the same for all indices $$t$$.
