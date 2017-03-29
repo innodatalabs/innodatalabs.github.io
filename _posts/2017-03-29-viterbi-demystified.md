@@ -1,7 +1,8 @@
 ---
 title: Viterbi algorithm, demystified
 author: Mike Kroutikov
-published: false
+math: true
+published: true
 ---
 When dealing with sequences, Viterbi algorithm and Viterbi decoding pops up regularly. This algorithm is usually described in the
 context of Hidden Markov Models. However, the application of this algorithm is not limited to HMMs. Besides, HMMs lately fell out
@@ -42,9 +43,9 @@ the model. Good choice will predict weather reliable. Bad choice will fail.
 
 ### Local loss
 Somewhat trivial, but still.
-```
+$$
 L[s] = \sum_{t=1}^T l(t, s(t))
-```
+$$
 Here we introduced `l(t, s)`, which we will call *logit* array (or matrix). 
 For each index we have `S` numbers that tell us how likely the
 corresponding state is. For example, for weather prediction we may have the following logits:
