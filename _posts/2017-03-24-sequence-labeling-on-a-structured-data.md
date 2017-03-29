@@ -1,8 +1,8 @@
 ---
+title: Sequence Labeling on a Structured Data
+author: Mike Kroutikov and Davod Nadeau
 published: false
 ---
-# Sequence Labeling on a Structured Data
-
 Sequence labeling is one of the classic ML tasks, that include well-studied problems of Part-of-Speech (POS) tagging,
 Named Entity Recognition (NER), Address parsing, and more. Here I want to discuss two related topics: **tokenization**, and satisfying
 constrains imposed by the **structure** of input document. 
@@ -219,7 +219,8 @@ Both these problems move us into the domain of [*constrained label decoding*](ht
 Among all possible label assignments we must pick the one that minimises the total loss *given the structural constrains*.
 
 The problem of IOB constraints can be addressed by applying [Viterbi-style decoding](https://en.wikipedia.org/wiki/Viterbi_algorithm)
-with the transition matrix that defines the constraint (and identity emission matrix).
+with the transition matrix that defines the constraint (and identity emission matrix). I will create another blog post
+detailing how Viterbi can be adapted for constrained label decoding.
 
 The problem of satisfying XML structure constraint is just a bit more complicated. To understand it better, 
 let's re-formulate it in terms of interval nesting problem.
