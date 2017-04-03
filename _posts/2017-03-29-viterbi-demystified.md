@@ -45,7 +45,7 @@ Now, if we want to predict the weather for a week, we need to come up with an al
 sequence $$s(t)$$. In ML this task is cast into optimization of some objective function $$L[s]$$. 
 This function depends on the sequence, and we want to find $$s(t)$$ that minimizes the $$L$$. 
 When I write $$L[s]$$ I mean that $$L$$ is a real number that depends on 
-complete path, i.e. depends on the state choice at every index $$t$$. Same cam be written as $$L[s] = L(s(1), s(2), \dots s(T))$$.
+complete path, i.e. depends on the state choice at every index $$t$$. Same can be written as $$L[s] = L(s(1), s(2), \dots s(T))$$.
 
 Practically, there are specific popular forms of $$L$$ dependency on $$s$$. Choice of $$L$$ is super important, because it defines
 the model. Good choice will predict weather reliably. Bad choice will fail to do so.
@@ -67,10 +67,9 @@ t=1        -0.1       -3.5        2.3
 t=2        -0.8       -2.5        1.3
 t=3        -1.2       -1.0        4.3
 t=4        -0.2       -3.0        0.1
-t=5        0.15       0.2        -2.7
-t=6        0.19       1.5        -2.8
-t=7        0.7        3.5        -5.3
------------------------------------------
+t=5         0.15       0.2       -2.7
+t=6         0.19       1.5       -2.8
+t=7         0.7        3.5       -5.3
 ```
 Where do these logits come from? Typically from the top Neural Network layer. But for the discussion of Viterbi this is not important.
 What is important is that our model $$L[s]$$ is fully described by a $$3\times 7$$ matrix of logits. 
