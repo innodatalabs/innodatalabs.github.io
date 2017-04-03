@@ -303,4 +303,4 @@ the best decoding that is consistent with the XML markup.
 
 ## Future research
 In the scheme sketched above, training is done in a classic sequence labeling fashion. But decoding was augmented to obey structural constraints. A more principled approach would be to use structural decoding constrains during the training too.
-For that we can modify loss function such that it only considers decodings that are conssitent with document structure.
+For that we can modify loss function such that it only considers decodings that are consistent with document structure.
