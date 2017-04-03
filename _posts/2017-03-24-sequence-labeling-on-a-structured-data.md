@@ -1,7 +1,7 @@
 ---
 title: Sequence Labeling on a Structured Data
 author: Mike Kroutikov and David Nadeau
-published: false
+published: true
 ---
 Sequence labeling is one of the classic ML tasks, that include well-studied problems of Part-of-Speech (POS) tagging,
 Named Entity Recognition (NER), Address parsing, and more. Here I want to discuss two related topics: **tokenization**, and satisfying
