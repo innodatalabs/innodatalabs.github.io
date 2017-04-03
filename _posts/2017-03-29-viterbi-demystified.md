@@ -201,7 +201,7 @@ If additionally we want to forbid transitions from rainy to sunny, we would use 
 -1000    0     0
 ```
 
-Thus, we are taking the original solution to a sequence labeling problem, and add external transitoin constraint.
+Thus, we are taking the original solution to a sequence labeling problem, and add external transition constraint.
 Then we find the best sequence that minimizes loss under the given constraint.
 
 To recap, we can use Viterbi to find solutions to sequence labeling problems under additional transition constrains.
