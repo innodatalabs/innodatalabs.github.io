@@ -2,7 +2,7 @@
 title: Viterbi algorithm, demystified
 author: Mike Kroutikov
 math: true
-published: false
+published: true
 ---
 When dealing with sequences, [Viterbi algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
 and Viterbi decoding pops up regularly. This algorithm is usually described in the
