@@ -164,7 +164,7 @@ Now, if we know solution $$L^*_{T-1}(q)$$ to a constrained problem of size $$T-1
 constrained problem of size $$T$$, $$L^*_T(r)$$, because:
 
 $$
-L^*_T(r) = \textrm{argmin}_q L^*_{T-1} + l(T, r) + m(T-1, q, r)
+L^*_T(r) = \textrm{argmin}_q \left\{ L^*_{T-1} + l(T, r) + m(T-1, q, r) \right\}
 $$
 
 To finsh the hard part, lets note that solution for a problem with size 1 is super easy (as there is no pairwise term
@@ -229,7 +229,7 @@ and   O
 China B-location
 ```
 
-Formally, the rules are: label 'I' can only be preceded by 'I' or 'B'. In other words, transition from 'O' to 'I' is not allowed.
+Formally, the rules are: label `I` can only be preceded by `I` or `B`. In other words, transition from `O` to `I` is not allowed.
 
 This can readily be expressed in terms of a transition matrix, and Viterbi can be used to ensure that we always return a sensible 
 IOB label sequence.
