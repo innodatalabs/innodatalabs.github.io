@@ -26,7 +26,7 @@ But here is the current wisdom:
 * there was some success in token-less learning as well - check out the [work of Andrej Karpathy](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) on the subject. He uses **character** as a token and proves
   that LSTM can learn long-range structure, inclusing balanced paranthesis, (almost) balanced XML tags and (almost)
   parseable LaTeX and C++ sources. Unfortunately character-level models are still somewhat sub-par in terms of performance
-  comparing to word-level tokened representations. So we have to work with word tokens for now.
+  comparing to word-level tokenized representations. So we have to work with word tokens for now.
 
 ## Structured documents
 
