@@ -103,3 +103,7 @@ For my tasks, EC2 still seems like the best option, because:
 * My amount of training data is still pretty small --- no need to go for cloud storage yet
 
 We should prepare to write **distributed** TensorFlow training code. Sooner or later data will expand beyond the capabilities of a single worker.
+
+### Update
+(21/04/2017): Check out [this comparison of Amazon, Paperspace and DIY](https://medium.com/initialized-capital/benchmarking-tensorflow-performance-and-cost-across-different-gpu-options-69bd85fe5d58)!
+
