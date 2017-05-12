@@ -40,6 +40,8 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * [Microsoft Concept Graph](https://concept.research.microsoft.com/Home/Download) contains 85 million "is a" relations for 5 million concepts and 12 million instances. 
 
+* [The Instacart Online Grocery Shopping Dataset 2017](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2) This anonymized dataset contains a sample of over 3 million grocery orders from more than 200,000 Instacart users.
+
 ### Want more?
 
 In Mediums' [Fueling the Gold Rush](https://medium.com/startup-grind/fueling-the-ai-gold-rush-7ae438505bc2#.8371yne65), Luke de Oliveira lists over 30 more datasets specific to AI.
