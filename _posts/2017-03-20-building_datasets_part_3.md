@@ -44,7 +44,9 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 ### Want more?
 
-In Mediums' [Fueling the Gold Rush](https://medium.com/startup-grind/fueling-the-ai-gold-rush-7ae438505bc2#.8371yne65), Luke de Oliveira lists over 30 more datasets specific to AI.
+* In Mediums' [Fueling the Gold Rush](https://medium.com/startup-grind/fueling-the-ai-gold-rush-7ae438505bc2#.8371yne65), Luke de Oliveira lists over 30 more datasets specific to AI.
+
+* a16z' AI microsite lists a few [image and text datasets](http://aiplaybook.a16z.com/docs/reference/datasets).
 
 And that's just scratching the surface...
 
