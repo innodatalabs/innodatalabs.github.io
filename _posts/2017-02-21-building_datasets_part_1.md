@@ -36,7 +36,7 @@ A further example can be found in another Google endeavor, the "Chinese chess" p
 
 In [Machine Learning Yearning](http://www.mlyearning.org/), Andrew Ng writes "One of the most reliable ways to improve an algorithm's performance today is still to train a bigger network and get more data." He also makes the point that dataset creation is an iterative process. It’s better start quickly, with an imperfect dataset, representation and metrics, gain a better understanding of the problem, and evolve towards a perfect dataset that yields human-level performance. 
  
-In my next post, I’ll look at the role of data quality vs quantity.
+In [my next post](http://blog.innodatalabs.com/building_datasets_part_2/), I’ll look at the role of data quality vs quantity.
 
 ---
 Random Forest visualisation was taken [here](http://www.rhaensch.de/vrf.html).
