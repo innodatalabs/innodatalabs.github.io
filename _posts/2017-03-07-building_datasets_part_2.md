@@ -53,4 +53,4 @@ It is also very tempting to use readily available data (e.g., weblog, transactio
 
 In summary, size and quality are the yin and yang for training data sets. Size without quality will produce reliable, yet potentially inaccurate results, while having only a small amount of quality data brings generalization into question. 
 
-In the next post of this serie, we will answer the question "but where is all the data?"
+In [the next post of this serie](http://blog.innodatalabs.com/building_datasets_part_3/), we will answer the question "but where is all the data?"
