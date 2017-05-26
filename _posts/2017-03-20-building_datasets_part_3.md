@@ -18,6 +18,8 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * [The Common Crawl](http://commoncrawl.org/) is a an open repository of web crawl data that can be accessed and analyzed by anyone.
 
+* [UCI Machine Learning Datasets](https://archive.ics.uci.edu/ml/datasets.html) is the most widly used source of datasets for ML algorithm benchmarking.
+
 * [DBPedia](http://wiki.dbpedia.org/services-resources/datasets/dbpedia-datasets) is a crowd-sourced community effort to extract structured information from Wikipedia and make this information available on the Web. 
 
 * [Kaggle](https://www.kaggle.com/datasets), the Machine Learning competition platform, hosts a large inventory of more than 400 public datasets.
@@ -42,11 +44,15 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * [The Instacart Online Grocery Shopping Dataset 2017](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2) This anonymized dataset contains a sample of over 3 million grocery orders from more than 200,000 Instacart users.
 
+* [CV Datasets on the web](http://www.cvpapers.com/datasets.html) covers more computer vision (CV) datasets than one can handle.
+
 ### Want more?
 
 * In Mediums' [Fueling the Gold Rush](https://medium.com/startup-grind/fueling-the-ai-gold-rush-7ae438505bc2#.8371yne65), Luke de Oliveira lists over 30 more datasets specific to AI.
 
 * a16z' AI microsite lists a few [image and text datasets](http://aiplaybook.a16z.com/docs/reference/datasets).
+
+* [Awesome Public Datasets](https://github.com/caesar0301/awesome-public-datasets) is an absolutely awesome collection of datasets collected and tidied from blogs, answers, and user responses.
 
 And that's just scratching the surface...
 
