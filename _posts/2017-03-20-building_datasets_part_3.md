@@ -28,6 +28,8 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * [Data.gov](https://www.data.gov/) and [Open Data in Canada](http://open.canada.ca/en/maps/open-data-canada) are two of the many open governmental data initiatives.
 
+* Non-gov entities are also riding on the Open Data opportunity. NYC-based [Enigma Public](https://public.enigma.com/), for instance, claim maintaining the world’s broadest collection of public data.
+
 * [AI2](http://allenai.org/data.html) has a great list of datasets for AI benchmarks.
 
 * Ever heard of 'Linked data'? Well there are more and more datasets published in linked data-compatible format. [Here's a visualization](http://lod-cloud.net/):
@@ -45,6 +47,8 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 * [The Instacart Online Grocery Shopping Dataset 2017](https://tech.instacart.com/3-million-instacart-orders-open-sourced-d40d29ead6f2) This anonymized dataset contains a sample of over 3 million grocery orders from more than 200,000 Instacart users.
 
 * [CV Datasets on the web](http://www.cvpapers.com/datasets.html) covers more computer vision (CV) datasets than one can handle.
+
+* Princeton researchers released the [biggest database of sarcasm ever](https://qz.com/965582/scientists-created-a-massive-database-of-sarcasm-drawn-from-reddit-comments/) with 1.4 million sarcastic remarks taken from Reddit. Problem solved.
 
 ### Want more?
 
