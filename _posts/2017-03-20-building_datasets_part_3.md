@@ -50,6 +50,8 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * Princeton researchers released the [biggest database of sarcasm ever](https://qz.com/965582/scientists-created-a-massive-database-of-sarcasm-drawn-from-reddit-comments/) with 1.4 million sarcastic remarks taken from Reddit. Problem solved.
 
+* Here's a [curated list of Medical datasets](https://github.com/beamandrew/medical-data)  for machine learning. 
+
 ### Want more?
 
 * In Mediums' [Fueling the Gold Rush](https://medium.com/startup-grind/fueling-the-ai-gold-rush-7ae438505bc2#.8371yne65), Luke de Oliveira lists over 30 more datasets specific to AI.
