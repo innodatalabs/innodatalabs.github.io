@@ -52,6 +52,10 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * Here's a [curated list of Medical datasets](https://github.com/beamandrew/medical-data)  for machine learning. 
 
+### Dataset and its sourcing platform
+
+* [Mozilla Common Voice](https://voice.mozilla.org/) is an online platform to crowd source and validate an open corpus of training data for voice recognition. You can contribute your voice, verify contributions from others and ... "Mozilla aims to [...] release the open source database later in 2017."
+
 ### Want more?
 
 * In Mediums' [Fueling the Gold Rush](https://medium.com/startup-grind/fueling-the-ai-gold-rush-7ae438505bc2#.8371yne65), Luke de Oliveira lists over 30 more datasets specific to AI.
