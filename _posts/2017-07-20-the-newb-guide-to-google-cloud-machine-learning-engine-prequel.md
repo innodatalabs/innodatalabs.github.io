@@ -1,8 +1,8 @@
-+---
-+title: The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
-+author: Michael Yee
-+published: false
-+---
+---
+title: The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
+author: Michael Yee
+published: false
+---
 
 If you are new to Google Cloud Platform and its products, you might find the documentation a bit lacking or tough to interpret without concrete examples.  You could be a Google search wizard and can easily find whatever resources you need to learn from.  As for myself, finding an easy step-by-step resource is like looking for a needle in a haystack.
 
