@@ -52,6 +52,8 @@ Let's narrow down all the potential [data acquisition strategies](https://medium
 
 * Here's a [curated list of Medical datasets](https://github.com/beamandrew/medical-data)  for machine learning. 
 
+* LibPostal project released [100GB of openly-licensed labeled data](https://github.com/openvenues/libpostal#training-data) for sequence modeling research (addresses/other geographic strings from OSM/OpenAddresses).
+
 ### Dataset and its sourcing platform
 
 * [Mozilla Common Voice](https://voice.mozilla.org/) is an online platform to crowd source and validate an open corpus of training data for voice recognition. You can contribute your voice, verify contributions from others and ... "Mozilla aims to [...] release the open source database later in 2017."
