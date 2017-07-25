@@ -47,7 +47,7 @@ To stop using the virtual environment, it needs to be deactivated:
 
     (ml-venv) $ deactivate
 
-####2) TensorFlow
+### 2) TensorFlow
 
 TensorFlow ( https://www.tensorflow.org/) is an open source software library for numerical computation using data flow graphs, developed by Google for machine learning. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them. TensorFlow’s architecture allows the flexible computational deployment to one or more CPUs or GPUs in a desktop, server, or mobile device with a single API. 
 
@@ -68,7 +68,7 @@ To verify that the correct python and version is being used, use pip show as fol
     Location: /home/michael/ml-engine/ml-venv/lib/python3.5/site-packages
     Requires: protobuf, numpy, markdown, werkzeug, six, backports.weakref, html5lib, bleach, wheel
 
-#### 3) Python client library
+### 3) Python client library
 
 google-api-python-client is the core Python library for accessing Google APIs.
 
@@ -91,7 +91,7 @@ To verify that the correct python and version is being used, use pip show as fol
     Location: /home/michael/ml-engine/ml-venv/lib/python3.5/site-packages
     Requires: oauth2client, six, httplib2, uritemplate
 
-#### 4) Google Cloud
+### 4) Google Cloud
 
 #### Google Cloud Platform
 
@@ -126,7 +126,7 @@ I will create and leave empty for now, three sub folders call "input", "output" 
 
 ![Sub Folders](../images/subfolders.png "sub folders")
 
-#### 5) Google Cloud SDK
+### 5) Google Cloud SDK
 
 Command-line interface for Google Cloud Platform products and services (https://cloud.google.com/sdk/downloads#apt-get).  
 
