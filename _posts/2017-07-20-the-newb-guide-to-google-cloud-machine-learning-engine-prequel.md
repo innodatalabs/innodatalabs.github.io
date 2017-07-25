@@ -34,7 +34,7 @@ To start using the virtual environment, it needs to be activated:
 
     $ source ml-venv/bin/activate
 
-To verify that the correct python and version is being used:
+To verify that the correct python and version has been installed:
 
     (ml-venv) $   which python
     /home/{user}/ml-engine/ml-venv/bin/python
@@ -55,7 +55,7 @@ In the virtualenv, simply type the following:
 
     (ml-venv)  $ pip install tensorflow==1.2.1
 
-To verify that the correct python and version is being used, use pip show as follows:
+To verify that the correct TensorFlow and version has been installed:
 
     (ml-venv) $ pip show tensorflow
     Name: tensorflow
@@ -76,9 +76,9 @@ In the virtualenv, simply type the following:
 
     (ml-venv)  $ pip install --upgrade google-api-python-client
 
-#### Verifying TensorFlow
+#### Verifying Python client library
 
-To verify that the correct python and version is being used, use pip show as follows:
+To verify that Python client library has been installed:
 
     (ml-venv) $ pip show google-api-python-client
     Name: google-api-python-client
