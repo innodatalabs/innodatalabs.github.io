@@ -41,7 +41,7 @@ To verify that the correct python and version has been installed:
     (ml-venv) $   python --version
     Python 3.5.2
 
-NOTE: {user} would reflect the user name you have inputted during linux setup
+NOTE: {user} would reflect the user name you have inputted during the linux setup
 
 To stop using the virtual environment, it needs to be deactivated:
 
@@ -91,11 +91,9 @@ To verify that Python client library has been installed:
     Location: /home/michael/ml-engine/ml-venv/lib/python3.5/site-packages
     Requires: oauth2client, six, httplib2, uritemplate
 
-### 4) Google Cloud
+### 4) Google Cloud Platform
 
-#### Google Cloud Platform
-
-NOTE:  A Gmail account is required to be associated with a Google Cloud account
+NOTE:  A Gmail account is required to be associated with a Google Cloud Platform account
 
 a) Navigate to the cloud console project page (https://console.cloud.google.com/cloud-resource-manager) and create a new project. I will name my project: my-ml-project
 
