@@ -5,6 +5,7 @@ published: false
 ---
 
 #The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
+
 July 25th 2017
 
 If you are new to Google Cloud Platform and its products, you might find the documentation a bit lacking or tough to interpret without concrete examples.  Maybe you are a Google search wizard and can easily find whatever resources you need to learn from.  As for myself, finding an easy step-by-step resource is like looking for a needle in a haystack.
@@ -16,16 +17,19 @@ NOTE: I use Python 3.5.2 with TensorFlow 1.2.1 in a Linux environment.
 ##Installing and setting up stuff
 
 ##1) Virtual environment
+
 A virtual environment is a tool to keep the dependencies required by different projects in separate places, by creating virtual Python environments for them.  To learn more about virtual environment, you may checkout this url:  http://python-guide-pt-br.readthedocs.io/en/latest/dev/virtualenvs/
 
     $ pip install virtualenv
 
 ##Creating virtualenv
+
 I will make a project folder called ml-engine and in that folder, I will create a virtual environment call ml-venv using the following commands:
 
     $ virtualenv -p /usr/bin/python3.5 ml-venv
 
 ##Starting, verifying and stopping the virtualenv
+
 To start using the virtual environment, it needs to be activated:
 
     $ source ml-venv/bin/activate
@@ -44,6 +48,7 @@ To stop using the virtual environment, it needs to be deactivated:
     (ml-venv) $ deactivate
 
 ##2) TensorFlow
+
 TensorFlow ( https://www.tensorflow.org/) is an open source software library for numerical computation using data flow graphs, developed by Google for machine learning. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them. TensorFlow’s architecture allows the flexible computational deployment to one or more CPUs or GPUs in a desktop, server, or mobile device with a single API. 
 
 In the virtualenv, simply type the following:
@@ -64,6 +69,7 @@ To verify that the correct python and version is being used, use pip show as fol
     Requires: protobuf, numpy, markdown, werkzeug, six, backports.weakref, html5lib, bleach, wheel
 
 ##3) Python client library
+
 google-api-python-client is the core Python library for accessing Google APIs.
 
 In the virtualenv, simply type the following:
@@ -71,6 +77,7 @@ In the virtualenv, simply type the following:
     (ml-venv)  $ pip install --upgrade google-api-python-client
 
 ###Verifying TensorFlow
+
 To verify that the correct python and version is being used, use pip show as follows:
 
     (ml-venv) $ pip show google-api-python-client
@@ -87,6 +94,7 @@ To verify that the correct python and version is being used, use pip show as fol
 ###4) Google Cloud
 
 ###Google Cloud Platform
+
 NOTE:  A Gmail account is required to be associated with a Google Cloud account
 
 a) Navigate to the cloud console project page (https://console.cloud.google.com/cloud-resource-manager) and create a new project. I will name my project: my-ml-project
@@ -118,7 +126,8 @@ I will create and leave empty for now, three sub folders call "input", "output" 
 
 ![Sub Folders](../images/subfolders.png "sub folders")
 
-###4) Cloud SDK
+###5) Google Cloud SDK
+
 Command-line interface for Google Cloud Platform products and services (https://cloud.google.com/sdk/downloads#apt-get).  
 
 Create an environment variable for the correct distribution: 
