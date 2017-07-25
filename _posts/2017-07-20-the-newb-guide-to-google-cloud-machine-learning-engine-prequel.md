@@ -4,7 +4,7 @@ author: Michael Yee
 published: false
 ---
 
-#The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
+# The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
 
 July 25th 2017
 
@@ -14,21 +14,21 @@ This blog is my journey on how to perform online predictions using Google Could 
 
 NOTE: I use Python 3.5.2 with TensorFlow 1.2.1 in a Linux environment.
 
-##Installing and setting up stuff
+## Installing and setting up stuff
 
-##1) Virtual environment
+### 1) Virtual environment
 
 A virtual environment is a tool to keep the dependencies required by different projects in separate places, by creating virtual Python environments for them.  To learn more about virtual environment, you may checkout this url:  http://python-guide-pt-br.readthedocs.io/en/latest/dev/virtualenvs/
 
     $ pip install virtualenv
 
-##Creating virtualenv
+#### Creating virtualenv
 
 I will make a project folder called ml-engine and in that folder, I will create a virtual environment call ml-venv using the following commands:
 
     $ virtualenv -p /usr/bin/python3.5 ml-venv
 
-##Starting, verifying and stopping the virtualenv
+#### Starting, verifying and stopping the virtualenv
 
 To start using the virtual environment, it needs to be activated:
 
@@ -47,7 +47,7 @@ To stop using the virtual environment, it needs to be deactivated:
 
     (ml-venv) $ deactivate
 
-##2) TensorFlow
+####2) TensorFlow
 
 TensorFlow ( https://www.tensorflow.org/) is an open source software library for numerical computation using data flow graphs, developed by Google for machine learning. Nodes in the graph represent mathematical operations, while the graph edges represent the multidimensional data arrays (tensors) communicated between them. TensorFlow’s architecture allows the flexible computational deployment to one or more CPUs or GPUs in a desktop, server, or mobile device with a single API. 
 
@@ -68,7 +68,7 @@ To verify that the correct python and version is being used, use pip show as fol
     Location: /home/michael/ml-engine/ml-venv/lib/python3.5/site-packages
     Requires: protobuf, numpy, markdown, werkzeug, six, backports.weakref, html5lib, bleach, wheel
 
-##3) Python client library
+#### 3) Python client library
 
 google-api-python-client is the core Python library for accessing Google APIs.
 
@@ -76,7 +76,7 @@ In the virtualenv, simply type the following:
 
     (ml-venv)  $ pip install --upgrade google-api-python-client
 
-###Verifying TensorFlow
+#### Verifying TensorFlow
 
 To verify that the correct python and version is being used, use pip show as follows:
 
@@ -91,9 +91,9 @@ To verify that the correct python and version is being used, use pip show as fol
     Location: /home/michael/ml-engine/ml-venv/lib/python3.5/site-packages
     Requires: oauth2client, six, httplib2, uritemplate
 
-###4) Google Cloud
+#### 4) Google Cloud
 
-###Google Cloud Platform
+#### Google Cloud Platform
 
 NOTE:  A Gmail account is required to be associated with a Google Cloud account
 
@@ -126,7 +126,7 @@ I will create and leave empty for now, three sub folders call "input", "output" 
 
 ![Sub Folders](../images/subfolders.png "sub folders")
 
-###5) Google Cloud SDK
+#### 5) Google Cloud SDK
 
 Command-line interface for Google Cloud Platform products and services (https://cloud.google.com/sdk/downloads#apt-get).  
 
