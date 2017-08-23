@@ -8,7 +8,7 @@ published: false
 
 August 15th 2017
 
-As promised, we will look at some example TensorFlow code.  The following will be the base TensorFlow code we will be building our Google Cloud Machine Learning (ML) Engine model upon:
+As promised, we will look at some example TensorFlow code.  The following will be the base TensorFlow code our Google Cloud Machine Learning (ML) Engine model we will be built upon:
 
 ## Base TensorFlow code
 
@@ -21,7 +21,7 @@ from tensorflow.python.lib.io import file_io
 
 
 # Google Storage locations
-BUCKET                  = "gs://my-ml-project-888/"
+GS_BUCKET               = "gs://my-ml-project-888/"
 INPUT_FOLDER            = "input/"
 OUTPUT_FOLDER           = "output/"
 INPUT_FILENAME          = "feed_dict.json"
@@ -30,7 +30,7 @@ OUTPUT_FILENAME         = "result.json"
 
 def read_bucket_json(filename):
     # reads a json file from Google Storage
-    with file_io.FileIO(BUCKET+INPUT_FOLDER+filename, "r") as json_file:
+    with file_io.FileIO(GS_BUCKET+INPUT_FOLDER+filename, "r") as json_file:
         json_data = json.load(json_file)
 
     return json_data
@@ -38,7 +38,7 @@ def read_bucket_json(filename):
 
 def write_bucket_json(json_data, filename):
     # writes a json file to Google Storage
-    with file_io.FileIO(BUCKET+OUTPUT_FOLDER+filename, "w") as json_file:
+    with file_io.FileIO(GS_BUCKET+OUTPUT_FOLDER+filename, "w") as json_file:
         json.dump(json_data, json_file)
 
 
@@ -54,9 +54,8 @@ def model():
 
     # feed_dict placeholder 
     x = tf.placeholder(tf.float32, name="x")
-    # reading input file from Google Storage
+    # read the input file from Google Storage
     feed_dict = read_bucket_json(INPUT_FILENAME)
-
 
     # operation 
     y = tf.add(tf.multiply(m, x), b, name="y")
@@ -76,7 +75,7 @@ def main(_):
     result = model()
     print(result)
 
-    # writing result to Google Storage
+    # write the result to Google Storage
     write_bucket_json({"y": result.tolist()}, OUTPUT_FILENAME)
 
 
@@ -92,9 +91,9 @@ NOTE: The feed_dict.json contains the data {"x:0": [1.0, 2.0, 3.0]}.
 Why do I need to use "x:0"?  TensorFlow does not have first-class Tensor objects, meaning that there are no notion of Tensor in the underlying graph that is executed by the runtime.  Instead the graph consists of op nodes connected to each other, representing operations.  An operation allocates memory for its outputs, which are available on endpoints :0, :1, etc... think of each of these endpoints as a Tensor.  If you have tensor corresponding to nodename:0 you can fetch its value using session.run("nodename:0").
 
 
-## TensorFlow Serving
+## Predictions?!?
 
-Now, the million dollar question, how do I deploy the model and make predictions for new data samples? 
+Now, the million dollar question, how do I deploy the model and make online predictions for new data samples? 
 
 ## Answer Part 1:  SavedModel
 
@@ -115,7 +114,7 @@ import tensorflow as tf
 
 
 def build_regression_signature(input_tensor, output_tensor):
-    """Helper function for building a regression SignatureDef."""
+    """Helper function for building a regression SignatureDef"""
     input_tensor_info = tf.saved_model.utils.build_tensor_info(input_tensor)
     signature_inputs = {tf.saved_model.signature_constants.REGRESS_INPUTS: input_tensor_info}
     
