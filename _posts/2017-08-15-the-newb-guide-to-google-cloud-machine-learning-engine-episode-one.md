@@ -212,19 +212,47 @@ Important: Your saved model must be 250MB or smaller to deployed with Google Clo
 
 In this blog, we will use Google Cloud Platform's web interface to create our model.  Before we start, make sure the saved model files are uplaoded to the "regression" folder on Google Storage.
 
-Creating a model:
+###Creating a model
+
+Under the products and servicestab, select ML Engine -> Models and click on the "Create model" button.
 ![Creating a model](../images/createmodel.png "create model") 
 
-Naming a model:
+###Naming a model
+
+I will name my model "regression", describe it as "regression model example" and click on the "Create" botton.
 ![Naming a model](../images/modelname.png "name model")
 
-Model created:
+###Model created
+
+In a few simple steps, you have create a placeholder for you model.
 ![Model created](../images/modelcreated.png "created model")
 
-Creating a version:
-![Creating a version](../images/versioncreate.png "create version") 
+###Creating a version
 
-Version created:
+Now, we must associate a version to the above model.  Firstly, select the model you have just created.  It will bring you to the following screen and click on CREATE VERSION at the top.
+![Creating a version](../images/createversiona.png "create version") 
+
+Every model with at least one version has a default version; the default is set when the first version is created. If you request predictions specifying just a model name, Goggle Cloud Machine Learning (ML) Engine uses the default version for that model.
+
+I will name my version "regression", describe it as "regression model example v1".  The source is its location on Google Storage: "my-ml-project-888/regression/"
+
+NOTE: You will need the "/" at the end of the Google Storage location or you will have a bad time.
+![Creating a version](../images/createversionb.png "create version") 
+
+###Version created
+
+After waiting what seems like enternity, you have associated a version to your model.  Since it is the first version we have associated to the model, it will be the default version.
 ![Version created](../images/versioncreated.png "created version")
+
+Naming models and versions
+
+Model and version names must:
+
+    Contain only (case-sensitive) mixed-case letters, numbers, and underscores
+    Begin with a letter
+    Contain 128 or fewer characters
+    Be unique within a given project (for models) or model (for versions)
+
+
 
 ## Answer Part 3:  Google Cloud Machine Learning (ML) Engine API - to be continued...
