@@ -6,8 +6,21 @@ published: false
 
 # The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
 
-July 25th 2017
+July 20th 2017
 
+## Foreword
+
+Google Cloud Machine Learning (ML) Engine (https://cloud.google.com/ml-engine/) is a managed service that enables you to easily build machine learning models, that work on any type of data, of any size. The service is integrated with Google Cloud Dataflow for feature processing, Google Cloud Storage for data storage, Google Datalab to build model among others useful services.  
+
+Google Cloud Machine Learning Engine includes the HyperTune services which perform cross-validation and automatically tunes hyperparameters.  As a managed service, it automates all resource provisioning, monitoring and scaling, allowing developers to solely focus on model and prediction development.
+
+This blog will focus on online prediction services using Google Cloud Machine Learning (ML) Engine using model(s) saved on Google Storage.
+
+This blog will not focus on training or local predictions using Google Cloud Machine Learning (ML) Engine.
+
+NOTE: Online prediction services is a Beta feature of Cloud ML Engine. It might be changed in backward-incompatible ways and is not subject to any SLA or deprecation policy.
+
+## Start here
 If you are new to Google Cloud Platform and its products, you might find the documentation a bit lacking or tough to interpret without concrete examples.  Maybe you are a Google search wizard and can easily find whatever resources you need to learn from.  As for myself, finding an easy step-by-step resource is like looking for a needle in a haystack.
 
 This blog is my journey on how to perform online predictions using Google Could Machine Learning (ML) Engine.  You are expected to have some Python and TensorFlow background to be able to flow this guide.
@@ -150,5 +163,4 @@ gcloud init launches an interactive "getting started workflow" for gcloud. It au
 
     (ml-venv)  $ gcloud init
 
-Well, I think this is a good place to stop.  Next episode we will continue on with some TensorFlow stuff.
-
+Well, I think this is a good place to stop.  Next episode, we will look at some example TensorFlow code.
