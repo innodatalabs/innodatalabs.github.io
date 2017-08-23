@@ -105,7 +105,7 @@ Therefore, all you need is a SavedModel and data, you can write tools that inter
 
 To learn more about SavedModel, you may checkout this url:  https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
 
-In this blog, we will be using the SavedModelBuilder class to save the MetaGraphs and associated variables.
+In this blog, we will be using the SavedModelBuilder class to save the MetaGraphs and associated variables.  Once the model is saved to our export folder, we will upload these files to the "regression" folder on Google Storage.
 
 
 ```python
@@ -204,4 +204,27 @@ Meta graph and variables are added to the builder using SavedModelBuilder.add_me
 
 The special signature key serving_default specifies the default serving signature. The default serving signature def key, along with other constants related to signatures, are defined as part of SavedModel signature constants. 
 
-## Answer Part 2:  Google Cloud Machine Learning (ML) Engine API - to be continued...
+## Answer Part 2:  Model Deployment
+
+Google Cloud Machine Learning (ML) Engine can host a model and its many versions so that it is available for prediction requests. The process of hosting a saved model is called deployment. The prediction service manages the infrastructure needed to run any model at scale.
+
+Important: Your saved model must be 250MB or smaller to deployed with Google Cloud Machine Learning (ML) Engine.
+
+In this blog, we will use Google Cloud Platform's web interface to create our model.  Before we start, make sure the saved model files are uplaoded to the "regression" folder on Google Storage.
+
+Creating a model:
+![Creating a model](../images/createmodel.png "create model") 
+
+Naming a model:
+![Naming a model](../images/modelname.png "name model")
+
+Model created:
+![Model created](../images/modelcreated.png "created model")
+
+Creating a version:
+![Creating a version](../images/versioncreate.png "create version") 
+
+Version created:
+![Version created](../images/versioncreated.png "created version")
+
+## Answer Part 3:  Google Cloud Machine Learning (ML) Engine API - to be continued...

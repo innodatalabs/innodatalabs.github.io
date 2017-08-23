@@ -111,10 +111,10 @@ NOTE:  A Gmail account is required to be associated with a Google Cloud Platform
 a) Navigate to the cloud console project page (https://console.cloud.google.com/cloud-resource-manager) and create a new project. I will name my project: my-ml-project
 
 Creating a project:
-![Creating a new project](../images/createproject.png "create project") 
+![Creating a project](../images/createproject.png "create project") 
 
 Project created:
-![Create a new project](../images/createdproject.png "created project") 
+![Created a project](../images/createdproject.png "created project") 
 
 To learn more about Creating and Managing Projects, you may checkout this url:
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
