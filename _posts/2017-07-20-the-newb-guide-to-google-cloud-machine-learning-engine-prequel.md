@@ -10,11 +10,9 @@ July 20th 2017
 
 ## Foreword
 
-Google Cloud Machine Learning (ML) Engine (https://cloud.google.com/ml-engine/) is a managed service that enables you to easily build machine learning models, that work on any type of data, of any size. The service is integrated with Google Cloud Dataflow for feature processing, Google Cloud Storage for data storage, Google Datalab to build model among others useful services.  
+Google Cloud Machine Learning (ML) Engine (https://cloud.google.com/ml-engine/) is a managed service that enables you to easily build machine learning models, that work on any type of data, of any size. The service is integrated with Google Cloud Dataflow for feature processing, Google Cloud Storage for data storage, Google Datalab to build model among others useful services.  As a managed service, it automates all resource provisioning, monitoring and scaling, allowing developers to solely focus on model and prediction development.
 
-Google Cloud Machine Learning Engine includes the HyperTune services which perform cross-validation and automatically tunes hyperparameters.  As a managed service, it automates all resource provisioning, monitoring and scaling, allowing developers to solely focus on model and prediction development.
-
-This blog will focus on online prediction services using Google Cloud Machine Learning (ML) Engine using model(s) saved on Google Storage.
+This blog will focus on online prediction services using Google Cloud Machine Learning (ML) Engine using a model saved on Google Storage.
 
 This blog will not focus on training or local predictions using Google Cloud Machine Learning (ML) Engine.
 
@@ -129,11 +127,11 @@ d) Cloud Storage lets you store unstructured objects in containers called bucket
 
 ![Create Bucket](../images/createbucket.png "create bucket")
 
-I will create a bucket call "my-ml-project-888" and use the regional location of "us-east1"
+I will create a bucket call "my-ml-project-888" and use the regional location closest to me, "us-east1".
 
 ![Creating Bucket](../images/creatingbucket.png "creating bucket")
 
-I will create and leave empty for now, three sub folders call "input", "output" and "regression"
+I will create and leave empty for now, three sub folders call "input" (input data folder), "output" (output result folder) and "regression" (model location folder).
 
 ![Sub Folders](../images/subfolders.png "sub folders")
 

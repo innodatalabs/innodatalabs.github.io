@@ -87,10 +87,6 @@ if __name__ == "__main__":
 In the above code, we have defined a simple model which will produce a result using the varibles we have defined.  The feed_dict values are loaded from a file located on Google Storage and the model variables are define in the code.
 The output of the above code will print the result [ 1.5  2.   2.5] to the screen and the dictionary {"y": [1.5, 2.0, 2.5]} will be written to an output file located on Google Storgage.  (Some tensorflow warning messages may appear, let us just ignore them for now.)
 
-NOTE: The feed_dict.json contains the data {"x:0": [1.0, 2.0, 3.0]}.  
-Why do I need to use "x:0"?  TensorFlow does not have first-class Tensor objects, meaning that there are no notion of Tensor in the underlying graph that is executed by the runtime.  Instead the graph consists of op nodes connected to each other, representing operations.  An operation allocates memory for its outputs, which are available on endpoints :0, :1, etc... think of each of these endpoints as a Tensor.  If you have tensor corresponding to nodename:0 you can fetch its value using session.run("nodename:0").
-
-
 ## Predictions?!?
 
 Now, the million dollar question, how do I deploy the model and make online predictions for new data samples? 
@@ -105,7 +101,7 @@ Therefore, all you need is a SavedModel and data, you can write tools that inter
 
 To learn more about SavedModel, you may checkout this url:  https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/saved_model/README.md
 
-In this blog, we will be using the SavedModelBuilder class to save the MetaGraphs and associated variables.  Once the model is saved to our export folder, we will upload these files to the "regression" folder on Google Storage.
+In this blog, we will be using the SavedModelBuilder class to save the MetaGraphs and associated variables.  Once the model is saved to the export folder, it will be uploaded to the "regression" folder on Google Storage.
 
 
 ```python
@@ -196,11 +192,9 @@ SavedModelBuilder takes the argument export_path: path of the export directory. 
 
 Meta graph and variables are added to the builder using SavedModelBuilder.add_meta_graph_and_variables() with the following arguments:
 
-    sess is the TensorFlow session that holds the trained model you are exporting.
-
-    tags is the set of tags with which to save the meta graph. In this case, since we intend to use the graph in serving, we use the serve tag from predefined SavedModel tag constants. 
-
-    signature_def_map specifies the map of user-supplied key for a signature to a tensorflow::SignatureDef to add to the meta graph. Signature specifies what type of model is being exported, and the input/output tensors to bind to when running inference.
+    - sess is the TensorFlow session that holds the trained model you are exporting.
+    - tags is the set of tags with which to save the meta graph. In this case, since we intend to use the graph in serving, we use the serve tag from predefined SavedModel tag constants. 
+    - signature_def_map specifies the map of user-supplied key for a signature to a tensorflow::SignatureDef to add to the meta graph. Signature specifies what type of model is being exported, and the input/output tensors to bind to when running inference.
 
 The special signature key serving_default specifies the default serving signature. The default serving signature def key, along with other constants related to signatures, are defined as part of SavedModel signature constants. 
 
@@ -210,24 +204,24 @@ Google Cloud Machine Learning (ML) Engine can host a model and its many versions
 
 Important: Your saved model must be 250MB or smaller to deployed with Google Cloud Machine Learning (ML) Engine.
 
-In this blog, we will use Google Cloud Platform's web interface to create our model.  Before we start, make sure the saved model files are uplaoded to the "regression" folder on Google Storage.
+In this blog, we will use Google Cloud Platform's web interface to create our model.  Before we start, ensure the model exists in the "regression" folder on Google Storage.
 
-###Creating a model
+### Creating a model
 
-Under the products and servicestab, select ML Engine -> Models and click on the "Create model" button.
+Under the products and services tab, select ML Engine then Models and click on the "Create model" button.
 ![Creating a model](../images/createmodel.png "create model") 
 
-###Naming a model
+### Naming a model
 
-I will name my model "regression", describe it as "regression model example" and click on the "Create" botton.
+I will name my model "regression", describe it as "regression model example" and click on the "Create" button.
 ![Naming a model](../images/modelname.png "name model")
 
-###Model created
+### Model created
 
-In a few simple steps, you have create a placeholder for you model.
+In a few simple steps, you have create a placeholder for the model.
 ![Model created](../images/modelcreated.png "created model")
 
-###Creating a version
+### Creating a version
 
 Now, we must associate a version to the above model.  Firstly, select the model you have just created.  It will bring you to the following screen and click on CREATE VERSION at the top.
 ![Creating a version](../images/createversiona.png "create version") 
@@ -239,20 +233,18 @@ I will name my version "regression", describe it as "regression model example v1
 NOTE: You will need the "/" at the end of the Google Storage location or you will have a bad time.
 ![Creating a version](../images/createversionb.png "create version") 
 
-###Version created
+### Version created
 
-After waiting what seems like enternity, you have associated a version to your model.  Since it is the first version we have associated to the model, it will be the default version.
+After waiting what seems like enternity, the following screen will show an associated a version to your model.  Since it is the first version we have associated to the model, it will be the default version.
 ![Version created](../images/versioncreated.png "created version")
 
-Naming models and versions
+### Naming models and versions
 
-Model and version names must:
-
-    Contain only (case-sensitive) mixed-case letters, numbers, and underscores
-    Begin with a letter
-    Contain 128 or fewer characters
-    Be unique within a given project (for models) or model (for versions)
-
+    Model and version names must:
+    - contain only (case-sensitive) mixed-case letters, numbers, and underscores
+    - begin with a letter
+    - contain 128 or fewer characters
+    - be unique within a given project (for models) or model (for versions)
 
 
 ## Answer Part 3:  Google Cloud Machine Learning (ML) Engine API - to be continued...

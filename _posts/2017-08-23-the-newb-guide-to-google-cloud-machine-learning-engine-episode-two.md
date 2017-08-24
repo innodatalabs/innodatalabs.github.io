@@ -8,19 +8,15 @@ published: false
 
 August 23rd 2017
 
-I have mixed feeling about cliffhangers and I hope you do not hate me for leaving you with one in the last blog.  In this episode, we will look at the last piece of the puzzle for predictions using Google Cloud Machine Learning (ML) Engine API.
+I have mixed feeling about cliffhangers and I hope you do not hate me for leaving you with one in the last blog.  In this episode, we will look at the last piece of the puzzle for predictions using Cloud Machine Learning Engine REST APIs.
 
-Before looking at some code, I would like to speak upon the following details:
+## Answer Part 3:  Cloud Machine Learning Engine REST APIs
 
-## Input data
+The following code describes how to use the Google API client library to easily make calls to the Cloud Machine Learning Engine REST APIs and is designed to familiarize yourself with with the following ideas:
 
-Input instances are passed for online prediction as the message body for the projects.predict call. Make each instance an item in a list and name the list member instances.
-
-example: {"instances": [{'x': [1.0, 2.0, 3.0]}]}
-
-
-
-## Answer Part 3:  Google Cloud Machine Learning (ML) Engine API
+    - Use application default credentials in your Python applications.
+    - Get a Python representation of the Cloud ML Engine services.
+    - Use that representation to create a model in your project, which should help you understand how to call the other model and job management APIs.
 
 ```python
 import json
@@ -74,7 +70,7 @@ request_dict = {"instances": [feed_dict]}
 request = ml.projects().predict(name=projectID, body=request_dict)
 
 try:
-    # finally, make the request
+    # make the prediction request!
     response = request.execute()
     
     # print the result to screen
@@ -84,15 +80,16 @@ try:
     write_bucket_json(response, OUTPUT_FILENAME)
 
 except errors.HttpError as err:
-    # something went wrong, print out some information
+    # something went wrong!
     print("There was an error!  Here are the details:")
     print(err._get_reason())
 
 ```
 
-The above code will make a request to Google Cloud Machine Learning (ML) Engine using data and our saved model located on Google Storage.
+The above code will make a request to Google Cloud Machine Learning (ML) Engine using data and model located on Google Storage.  
 
-The output of the above code will print the result {'predictions': [{'y': [1.5, 2.0, 2.5]}]} to the screen and to an output file located on Google Storgage.  
+Input instances (data) are passed for online prediction as the message body for the projects.predict call. Make each instance an item in a list and name the list member instances.  Example: {"instances": [{'x': [1.0, 2.0, 3.0]}]}
 
+The output will print the result {'predictions': [{'y': [1.5, 2.0, 2.5]}]} to the screen and to an output file located on Google Storage.  
 
 # The End?
