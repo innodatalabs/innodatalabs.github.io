@@ -14,9 +14,9 @@ I have mixed feeling about cliffhangers and I hope you do not hate me for leavin
 
 The following code describes how to use the Google API client library to easily make calls to the Cloud Machine Learning Engine REST APIs and is designed to familiarize yourself with with the following ideas:
 
-    - Use application default credentials in your Python applications.
-    - Get a Python representation of the Cloud ML Engine services.
-    - Use that representation to create a model in your project, which should help you understand how to call the other model and job management APIs.
+    - Use application default credentials in your Python applications
+    - Get a Python representation of the Cloud ML Engine services
+    - Use that representation to create a model in your project
 
 ```python
 import json
