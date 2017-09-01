@@ -1,7 +1,7 @@
 ---
 title: The newb guide to Google Cloud Machine Learning (ML) Engine - Episode Two
 author: Michael Yee
-published: false
+published: true
 ---
 
 # The newb guide to Google Cloud Machine Learning (ML) Engine - Episode Two
