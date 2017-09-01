@@ -188,9 +188,9 @@ SavedModelBuilder takes the argument export_path: path of the export directory. 
 
 Meta graph and variables are added to the builder using SavedModelBuilder.add_meta_graph_and_variables() with the following arguments:
 
-    - sess is the TensorFlow session that holds the trained model you are exporting.
-    - tags is the set of tags with which to save the meta graph. In this case, since we intend to use the graph in serving, we use the serve tag from predefined SavedModel tag constants. 
-    - signature_def_map specifies the map of user-supplied key for a signature to a tensorflow::SignatureDef to add to the meta graph. Signature specifies what type of model is being exported, and the input/output tensors to bind to when running inference.
+- sess is the TensorFlow session that holds the trained model you are exporting.
+- tags is the set of tags with which to save the meta graph. In this case, since we intend to use the graph in serving, we use the serve tag from predefined SavedModel tag constants. 
+- signature_def_map specifies the map of user-supplied key for a signature to a tensorflow::SignatureDef to add to the meta graph. Signature specifies what type of model is being exported, and the input/output tensors to bind to when running inference.
 
 The special signature key serving_default specifies the default serving signature. The default serving signature def key, along with other constants related to signatures, are defined as part of SavedModel signature constants. 
 
