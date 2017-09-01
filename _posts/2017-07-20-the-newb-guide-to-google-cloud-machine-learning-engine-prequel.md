@@ -21,7 +21,7 @@ NOTE: Online prediction services is a Beta feature of Cloud ML Engine. It might 
 ## Start here
 If you are new to Google Cloud Platform and its products, you might find the documentation a bit lacking or tough to interpret without concrete examples.  Maybe you are a Google search wizard and can easily find whatever resources you need to learn from.  As for myself, finding an easy step-by-step resource is like looking for a needle in a haystack.
 
-This blog is my journey on how to perform online predictions using Google Could Machine Learning (ML) Engine.  You are expected to have some Python and TensorFlow background to be able to flow this guide.
+This blog is my journey on how to perform online predictions using Google Could Machine Learning (ML) Engine.  You are expected to have some Python and TensorFlow background to be able to follow this guide.
 
 NOTE: I use Python 3.5.2 with TensorFlow 1.2.1 in a Linux environment.
 
@@ -117,7 +117,7 @@ Project created:
 To learn more about Creating and Managing Projects, you may checkout this url:
 https://cloud.google.com/resource-manager/docs/creating-managing-projects
 
-b) Enable billing for your new project.  Don't worry, Google is kind and has given you $300USD credit to use towards your project.  Even if you have used up all the credit, you will never be billed a cent, unless you approve to do so.  Google has decent documentation on how to enable billing for a project: https://support.google.com/cloud/answer/6293499?hl=en
+b) Enable billing for your new project.  Don't worry, Google is kind and has given you $300 credit to use towards your project.  Even if you have used up all the credit, you will never be billed a cent, unless you approve to do so.  Google has decent documentation on how to enable billing for a project: https://support.google.com/cloud/answer/6293499?hl=en
 
 c) To enable Goggle Cloud Machine Learning (ML) Engine, select ML Engine in products and services. After waiting for the background magic to complete and watching a nice little graphic, you will see the following page:
 
@@ -161,4 +161,4 @@ gcloud init launches an interactive "getting started workflow" for gcloud. It au
 
     (ml-venv)  $ gcloud init
 
-Well, I think this is a good place to stop.  Next episode, we will look at some example TensorFlow code.
+Well, I think this is a good place to stop.  [Next episode] (http://blog.innodatalabs.com/the-newb-guide-to-google-cloud-machine-learning-engine-episode-one), we will look at some example TensorFlow code.

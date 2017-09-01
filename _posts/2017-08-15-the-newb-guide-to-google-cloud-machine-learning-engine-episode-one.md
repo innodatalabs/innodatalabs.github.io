@@ -235,7 +235,7 @@ NOTE: You will need the "/" at the end of the Google Storage location or you wil
 
 ### Version created
 
-After waiting what seems like enternity, the following screen will show an associated a version to your model.  Since it is the first version we have associated to the model, it will be the default version.
+After waiting what seems like enternity or ten minutes, the following screen will show an associated a version to your model.  Since it is the first version we have associated to the model, it will be the default version.
 ![Version created](../images/versioncreated.png "created version")
 
 ### Naming models and versions
@@ -247,4 +247,4 @@ After waiting what seems like enternity, the following screen will show an assoc
     - be unique within a given project (for models) or model (for versions)
 
 
-## Answer Part 3:  Cloud Machine Learning Engine REST APIs - to be continued...
+[Answer Part 3:  Cloud Machine Learning Engine REST APIs - to be continued...](http://blog.innodatalabs.com/the-newb-guide-to-google-cloud-machine-learning-engine-episode-two)
