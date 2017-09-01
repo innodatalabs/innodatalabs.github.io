@@ -236,11 +236,11 @@ After waiting what seems like enternity or ten minutes, the following screen wil
 
 ### Naming models and versions
 
-    Model and version names must:
-    - contain only (case-sensitive) mixed-case letters, numbers, and underscores
-    - begin with a letter
-    - contain 128 or fewer characters
-    - be unique within a given project (for models) or model (for versions)
+Model and version names must:
+- contain only (case-sensitive) mixed-case letters, numbers, and underscores
+- begin with a letter
+- contain 128 or fewer characters
+- be unique within a given project (for models) or model (for versions)
 
 
 [Answer Part 3:  Cloud Machine Learning Engine REST APIs - to be continued...](http://blog.innodatalabs.com/the-newb-guide-to-google-cloud-machine-learning-engine-episode-two)
