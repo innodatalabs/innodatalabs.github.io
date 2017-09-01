@@ -4,19 +4,15 @@ author: Michael Yee
 published: true
 ---
 
-# The newb guide to Google Cloud Machine Learning (ML) Engine - Episode Two
-
-August 23rd 2017
-
 I have mixed feeling about cliffhangers and I hope you do not hate me for leaving you with one in the last blog.  In this episode, we will look at the last piece of the puzzle for predictions using Cloud Machine Learning Engine REST APIs.
 
 ## Answer Part 3:  Cloud Machine Learning Engine REST APIs
 
 The following code describes how to use the Google API client library to easily make calls to the Cloud Machine Learning Engine REST APIs and is designed to familiarize yourself with with the following ideas:
 
-    - Use application default credentials in your Python applications
-    - Get a Python representation of the Cloud ML Engine services
-    - Use that representation to create a model in your project
+- Use application default credentials in your Python applications
+- Get a Python representation of the Cloud ML Engine services
+- Use that representation to create a model in your project
 
 ```python
 import json

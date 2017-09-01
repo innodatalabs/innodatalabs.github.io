@@ -4,10 +4,6 @@ author: Michael Yee
 published: true
 ---
 
-# The newb guide to Google Cloud Machine Learning (ML) Engine - Prequel
-
-July 20th 2017
-
 ## Foreword
 
 Google Cloud Machine Learning (ML) Engine (https://cloud.google.com/ml-engine/) is a managed service that enables you to easily build machine learning models, that work on any type of data, of any size. The service is integrated with Google Cloud Dataflow for feature processing, Google Cloud Storage for data storage, Google Datalab to build model among others useful services.  As a managed service, it automates all resource provisioning, monitoring and scaling, allowing developers to solely focus on model and prediction development.
@@ -161,4 +157,4 @@ gcloud init launches an interactive "getting started workflow" for gcloud. It au
 
     (ml-venv)  $ gcloud init
 
-Well, I think this is a good place to stop.  [Next episode] (http://blog.innodatalabs.com/the-newb-guide-to-google-cloud-machine-learning-engine-episode-one), we will look at some example TensorFlow code.
+Well, I think this is a good place to stop.  [Next episode](http://blog.innodatalabs.com/the-newb-guide-to-google-cloud-machine-learning-engine-episode-one), we will look at some example TensorFlow code.

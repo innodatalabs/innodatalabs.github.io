@@ -4,10 +4,6 @@ author: Michael Yee
 published: true
 ---
 
-# The newb guide to Google Cloud Machine Learning (ML) Engine - Episode One
-
-August 15th 2017
-
 As promised, we will look at some example TensorFlow code.  The following will be the base TensorFlow code our Google Cloud Machine Learning (ML) Engine model we will be built upon:
 
 ## Base TensorFlow code
