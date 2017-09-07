@@ -31,6 +31,10 @@ article reference {
   width: 240px;
   background: #FFFFFF;
   border-left: 1px solid #E8E8E8; 
+	
+  @include mobile {
+    position: relative;
+  }
 }
  
 article reference .nav {
