@@ -62,6 +62,25 @@ body {
   font-weight:400;
 }
 
+article reference {
+  position: fixed;
+  top: 70px;
+  right: 0px;
+  bottom: 10px;
+  width: 240px;
+  background: #FFFFFF;
+  border-left: 1px solid #E8E8E8; 
+}
+ 
+article reference .nav {
+  margin: 20px 20px; 
+}
+article reference .nav .separator {
+  height: 1px;
+  background: #E8E8E8; 
+  margin: 20px 20px;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color:#222;
   margin:0 0 20px;
