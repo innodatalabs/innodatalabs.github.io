@@ -79,10 +79,10 @@ if __name__ == '__main__':
 
 In the above example, the Saver class created four files: 
 
-checkpoint: A list of all the saved checkpoint filenames
-model.data-00000-of-00001: weight data
-model.index: tensor name-data location table
-model.meta: Graph and metadata
+- checkpoint: A list of all the saved checkpoint filenames
+- model.data-00000-of-00001: weight data
+- model.index: tensor name-data location table
+- model.meta: Graph and metadata
 
 The following is an example of restoring a model using import_meta_graph:
 
