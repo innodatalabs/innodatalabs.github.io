@@ -8,7 +8,7 @@ In this eplilogue, I will descibe how to convert a saved model (checkpoint versi
 
 ## Foreword
 
-When you are programming with TensorFlow, you are defining a structured solution by describing and not computing its operations. All these operations are organized as a Graph and the results of these operations are Tensors. 
+When you are programming with TensorFlow, you are defining a structured solution by describing and not computing its operations. All these operations are organized as a Graph and the inputs and outputs of these operations are Tensors. 
 
 For computations to occur, the graph must be launched in a Session. When a Session is created, a new scope is started for the program where operations and its resulting Tensors are processed. Once the Session has ended, the Graph returns to its initial static state.
 
@@ -17,7 +17,7 @@ Summary
 Graph 
 - Describes the flow control and mathematical operations 
 - Restoring or saving equates to loading/saving the Graph, metadata and variables
-- The Graph requires a proper input pipeline (i.e. feed_dict, Dataset API, etc.)
+- The Graph requires a proper input pipeline (i.e. feed_dict, dataset API, etc.)
 
 Session and evaluation
 - Variables get initialized and operations are executed
