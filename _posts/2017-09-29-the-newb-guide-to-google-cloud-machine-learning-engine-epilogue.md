@@ -1,7 +1,7 @@
 ---
 title: The newb guide to Google Cloud Machine Learning (ML) Engine - Epilogue
 author: Michael Yee
-published: false
+published: true
 ---
 
 In this eplilogue, I will descibe how to convert a saved model (checkpoint version) to a Freeze Graph (protobuf version) or a SavedModel (Google Cloud Machine Learning (ML) Engine format).
@@ -17,7 +17,7 @@ Summary
 Graph 
 - Describes the flow control and mathematical operations 
 - Restoring or saving equates to loading/saving the Graph, metadata and variables
-- The Graph requires a proper input pipeline (i.e. feed_dict)
+- The Graph requires a proper input pipeline (i.e. feed_dict, Dataset API, etc.)
 
 Session and evaluation
 - Variables get initialized and operations are executed
@@ -64,7 +64,7 @@ def model():
     saver = tf.train.Saver() 
 
     # saving the default graph and variables m and b 
-    saver.save(session, folder + '/model')
+    saver.save(session, os.path.join(folder,'model'))
 
 
 def main(_):
@@ -88,7 +88,11 @@ The following is an example of restoring a model using import_meta_graph:
 
 ```python
 
+import os
 import tensorflow as tf
+
+
+folder = os.path.dirname(os.path.realpath(__file__))
 
 # create feed_dict to feed new data
 feed_dict = {"x:0": 4.0}
@@ -111,7 +115,7 @@ y = graph.get_tensor_by_name("y:0")
 
 with tf.Session() as session:
     # restore weights
-    saver.restore(session, 'model')
+    saver.restore(session, os.path.join(folder,'model'))
 
     # run the operation
     print(session.run(y, feed_dict=feed_dict)) 
@@ -223,7 +227,7 @@ Note: When loading the frozen Graph, all operations would have gotten prefixed b
 
 ## Part 3: SavedModel
 
-To convert checkpoint files to a format that Google Cloud Machine Learning (ML) Engine accepts, all it is needed is some extra information around the Graph. Assuming the graph does not require assets, all that is needed is a serving signature.
+To convert checkpoint files to a format that Google Cloud Machine Learning (ML) Engine accepts, all it is needed is some extra information around the Graph. Assuming the graph does not require assets (i.e. vocabularies), all that is needed is a serving signature.
 
 ```python
 
