@@ -1,0 +1,99 @@
+---
+author: Mike Kroutikov
+published: false
+title: Automate ML Model Training Using Jenkins
+keywords: aws ec2, machine learning, jenkins, tensorflow, google cloud
+---
+# How to automate ML training with Jenkins Pipelines
+
+We want this:
+
+1. Train models in Amazon EC2 cloud. GPU instances there are quite cheap
+
+2. Automatically shutdown cloud worker(s) when training is done. This avoids paying for idle machine.
+
+3. Store training data and experiment results in Google Storage. This is dictated by our framework choice (TensorFlow). TF
+   natively works with Google Storage urls, but does not yet support S3 urls. In more details:
+   * use worker local disk as `temp` space for downloading dataset in its native format, and unpacking.
+     we use local storage because tools like `tar`, `zip`, `curl` do not support cloud storage
+   * use Google Storage bucket to store preprocessed data. TF has built-in unitilies for data preparation
+     and storing in space-efficient `TFRecord` format. All these utilities transparently support Goog Storage cloud
+     urls (but do not support S3 urls yet). This data is durable, and we will be training many models off it. Therefore
+     we do not use worker local storage - data must survive worker termination
+   * use Google Storage bucket to store experiment results - checkpoints and TesorBoard events. Again, this data has
+     to be durable. Siince Tensorboard natively support Google Storage urls, we can visualise experiment results
+     right from the Google Storage bucket!
+
+Doing the above manually is not hard, but does not scale well. Manually provisioning and starting EC2 workers
+is tedious and repetitive. If my training is expected to complete in the middle of the night, who will stop the EC2 machine?
+
+Another concern is managing of credentials. We generally need:
+
+1. Private keys to connect to the EC2 workers
+2. Secrets to checkout private repositories from GitHub and/or Bitbucket
+3. Private keys to enable upload to Google Storage bucket
+
+Jenkins to the rescue!
+
+## Jenkins rules us all
+Jenkins is still one of the best integration tools out there.
+
+Yes, it looks aging and cranky, and occasionally dies with OOM error (thanks, Java!). But it has an enourmous
+number of useful plugins. And it is free.
+
+Recent addition of Piplines in Jenkins is a very welcome development, as now I can store job descriptions
+in the source tree and have proper versioning and change history.
+
+Global configuration (users, credentials, plugins) is still manual though. But I will live with that for the time being.
+
+## The Plan
+
+1. Use **Amazon EC2 Plugin** and configure it to launch AMI we want. We should assign a good label to the cloud EC2 Jenkins
+   workers - plugin will launch those on-demand when job requires a worker with that specific label.
+2. Create Google Cloud service account with the appropriate scope (`Google Storage Admin` role) and download its JSON
+   secret file. Name if `gcloud-jenkins.json`
+3. In Jenkins configure credential of type *File*, name it `google-jenkins` and upload `gclod-jenkins.json` file.
+4. In Jenkins configure *Username/Password* credentials to access SCM (say, GitHub and/or Bitbucket). We will use it to
+   checkout private repositories
+5. In Jenkins configure credential of type *File*, name if `pip.conf` and upload private PIP config. This will enable
+   us to access private PyPI repositories
+
+## The Solution
+
+Here is a Jenkins pipeline that does the thing:
+```!groovy
+pipeline {
+    agent { node { label 'tensorflow-cpu' } }
+    parameters {
+        stringParam(defaultValue: '', description: 'Problem Name', name: 'problem')
+    }
+    environment {
+        PROBLEM_NAME="${params.problem}"
+        BUCKET="gs://my-training-bucket-name.appspot.com/${params.problem}"
+    }
+    stages {
+        stage('Prepare') {
+            steps {
+                git credentialsId: 'github-login', url: 'https://github.com/myself/my-cool-private-repo.git', branch: 'master'
+                sh 'virtualenv .venv --system-site-packages -p python3'
+                sh '''
+                . .venv/bin/activate
+                pip install -r requirements.txt
+                pip install -e .  // i need this because of console_scripts define in setup.py. YMMV
+                '''
+            }
+        }
+        stage('Generate data') {
+            steps {
+                echo "Generating data for problem $PROBLEM_NAME"
+                withCredentials([file(credentialsId: 'gcloud-jenkins', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    sh """
+                    . .venv/bin/activate
+                    python -m my_cool_datagen --data_dir $BUCKET --problem $PROBLEM_NAME
+                    """
+                }
+            }
+        }
+    }
+}
+```
