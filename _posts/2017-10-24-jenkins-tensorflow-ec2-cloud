@@ -63,10 +63,13 @@ Global configuration (users, credentials, plugins) is still manual though. But I
 Here is a Jenkins pipeline that does the thing:
 ```!groovy
 pipeline {
+    // pay attention to label here. same label should be used by EC2 plugin defining scalable AMI
     agent { node { label 'tensorflow-cpu' } }
+    // we need to ask user for the problem name (aka dataset name)
     parameters {
         stringParam(defaultValue: '', description: 'Problem Name', name: 'problem')
     }
+    // for convenience, lets export PROBLEM_NAME and BUCKET, as we built from user input above
     environment {
         PROBLEM_NAME="${params.problem}"
         BUCKET="gs://my-training-bucket-name.appspot.com/${params.problem}"
@@ -86,6 +89,8 @@ pipeline {
         stage('Generate data') {
             steps {
                 echo "Generating data for problem $PROBLEM_NAME"
+                // JSON file define as File credential `gcloud-jenkins` should contain Google service account
+                //  having Gogole Storage Admin priveleges
                 withCredentials([file(credentialsId: 'gcloud-jenkins', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
                     sh """
                     . .venv/bin/activate
