@@ -6,15 +6,15 @@
   -moz-box-shadow: 3px 3px rgba(0,0,0,0.1);
   -webkit-box-shadow: 3px 3px rgba(0,0,0,0.1);
   box-shadow: 3px 3px rgba(0,0,0,0.1);
-  margin: 20px 0 20px 0;
-  overflow: scroll;
+  overflow: auto;
+  margin: 0;
 }
 
 div.highlight {
   padding: 0;
   border: none;
   overflow: auto;
-  margin: 0;
+  margin: 20px 0 20px 0;
 }
 
 code {
