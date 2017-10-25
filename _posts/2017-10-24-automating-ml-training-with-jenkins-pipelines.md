@@ -2,7 +2,8 @@
 title: Automating ML Training With Jenkins Pipelines
 author: Mike Kroutikov
 layout: post
-style: .code { color: darkviolet; }
+style: |
+   .code { color: darkviolet; }
 ---
 
 What I want is:
