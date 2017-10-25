@@ -3,7 +3,6 @@ title: Automating ML Training With Jenkins Pipelines
 author: Mike Kroutikov
 layout: post
 ---
-*Work in Progress! Please come back later to see it in its full glory or misery*
 
 What I want is:
 
@@ -33,7 +32,7 @@ Another concern is managing credentials. We generally need:
 
 Jenkins to the rescue!
 
-## Jenkins rules them all
+## Jenkins to rule us all!
 [Jenkins](https://jenkins.io/) is still one of the best integration tools out there.
 
 Yes, it looks aging and cranky, and occasionally dies with OOM error (thanks, Java!). But it has an enourmous
