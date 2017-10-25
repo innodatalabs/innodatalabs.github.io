@@ -61,7 +61,7 @@ Global configuration (users, credentials, plugins) is still manual though. But I
 
 ## The Solution
 
-Here is a Jenkins pipeline that does the thing:
+Here is a Jenkins pipeline that does the thing ([gist](https://gist.github.com/mkroutikov/19ec3e0efd43a21ca93b7a5e6b4672f7)):
 ```!groovy
 pipeline {
     // pay attention to label here. same label should be used by EC2 plugin defining scalable AMI
