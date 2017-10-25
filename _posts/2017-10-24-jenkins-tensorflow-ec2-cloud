@@ -17,12 +17,12 @@ We want this:
    * use worker local disk as `temp` space for downloading dataset in its native format, and unpacking.
      we use local storage because tools like `tar`, `zip`, `curl` do not support cloud storage
    * use Google Storage bucket to store preprocessed data. TF has built-in unitilies for data preparation
-     and storing in space-efficient `TFRecord` format. All these utilities transparently support Goog Storage cloud
+     and storing in space-efficient `TFRecord` format. All these utilities transparently support Google Storage cloud
      urls (but do not support S3 urls yet). This data is durable, and we will be training many models off it. Therefore
-     we do not use worker local storage - data must survive worker termination
+     we can not use worker local storage - data must survive worker termination!
    * use Google Storage bucket to store experiment results - checkpoints and TesorBoard events. Again, this data has
-     to be durable. Siince Tensorboard natively support Google Storage urls, we can visualise experiment results
-     right from the Google Storage bucket!
+     to be durable. Since Tensorboard natively support Google Storage urls, we can visualise experiment results
+     right off the Google Storage bucket!
 
 Doing the above manually is not hard, but does not scale well. Manually provisioning and starting EC2 workers
 is tedious and repetitive. If my training is expected to complete in the middle of the night, who will stop the EC2 machine?
@@ -32,10 +32,11 @@ Another concern is managing of credentials. We generally need:
 1. Private keys to connect to the EC2 workers
 2. Secrets to checkout private repositories from GitHub and/or Bitbucket
 3. Private keys to enable upload to Google Storage bucket
+4. Secret configuration files to access private PyPI
 
 Jenkins to the rescue!
 
-## Jenkins rules us all
+## Jenkins rules them all
 Jenkins is still one of the best integration tools out there.
 
 Yes, it looks aging and cranky, and occasionally dies with OOM error (thanks, Java!). But it has an enourmous
@@ -51,11 +52,11 @@ Global configuration (users, credentials, plugins) is still manual though. But I
 1. Use **Amazon EC2 Plugin** and configure it to launch AMI we want. We should assign a good label to the cloud EC2 Jenkins
    workers - plugin will launch those on-demand when job requires a worker with that specific label.
 2. Create Google Cloud service account with the appropriate scope (`Google Storage Admin` role) and download its JSON
-   secret file. Name if `gcloud-jenkins.json`
-3. In Jenkins configure credential of type *File*, name it `google-jenkins` and upload `gclod-jenkins.json` file.
-4. In Jenkins configure *Username/Password* credentials to access SCM (say, GitHub and/or Bitbucket). We will use it to
+   secret file. Name it `gcloud-jenkins.json`
+3. In Jenkins, configure a credential of type *File*, name it `google-jenkins` and upload `gclod-jenkins.json` file.
+4. In Jenkins, configure *Username/Password* credentials to access SCM (say, GitHub and/or Bitbucket). We will use it to
    checkout private repositories
-5. In Jenkins configure credential of type *File*, name if `pip.conf` and upload private PIP config. This will enable
+5. In Jenkins, configure a credential of type *File*, name it `pip.conf` and upload private PIP config. This will enable
    us to access private PyPI repositories
 
 ## The Solution
@@ -89,7 +90,7 @@ pipeline {
         stage('Generate data') {
             steps {
                 echo "Generating data for problem $PROBLEM_NAME"
-                // JSON file define as File credential `gcloud-jenkins` should contain Google service account
+                // JSON file defined as File credential `gcloud-jenkins` should contain Google service account
                 //  having Gogole Storage Admin priveleges
                 withCredentials([file(credentialsId: 'gcloud-jenkins', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
                     sh """
