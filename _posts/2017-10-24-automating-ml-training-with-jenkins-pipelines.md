@@ -291,7 +291,7 @@ stage('Training') {
  }
 }
 ```
-This all should be very familiar now. The body of the stag is wrapped in `withCredentials` block. Here we use it
+This all should be very familiar now. The body of the stage is wrapped in `withCredentials` block. Here we use it
 to expose environment variable `$GOOGLE_APPLICATION_CREDENTUIALS`, pointing to a secret file
 containing Google service account keys in JSON format. We need this to give EC2 worker read/write acces to Google Storage
 bucket.
