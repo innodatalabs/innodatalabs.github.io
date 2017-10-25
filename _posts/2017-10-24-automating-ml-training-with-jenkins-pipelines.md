@@ -197,8 +197,9 @@ stage('Provision Private PyPI') {
  }
 }
 ```
-Most interesting part here is `withCredentials` arument. Note the name `pip-conf-secret-file`. It refers to a credentials configured 
-in Jenkins. To configure this go to `Jenkins/Credentials` menu and further choose `System` sub-menu. Then `Add credentials`.
+Most interesting part here is `withCredentials` arument. Note the name `pip-conf-secret-file`. It refers to a credentials configured in Jenkins. 
+
+To configure this I go to `Jenkins/Credentials` menu and further choose `System` sub-menu. Then `Add credentials`.
 Choose credential type to be `Secret File`, enter `pip-conf-secret-file` as credentials id, and upload my `pip.conf`.
 
 ### Provision Packages
@@ -209,9 +210,11 @@ That would be as simple as running
 apt update; apt install virtualenv -y
 ```
 
-But... That does not work on a newly started EC2! The reason being that newly created instances automatically run
-updates at instance creation time, in the background. Instance may seem ready to work, but some `apt` process(es) are
-running in background, keeping `apt lock`.
+But... That does not work on the newly started EC2! 
+
+The reason being that newly created instances automatically run updates at instance creation time, in the background. 
+Instance may seem ready to work, but some `apt` process(es) are running in background, keeping `apt lock`. Attempt to
+eun out `apt install` will result in the error aquiring the lock.
 
 We need to wait for the background updates to complete before installing our packages.
 
@@ -229,7 +232,7 @@ stage('Provision packages') {
 }
 ```
 
-Now we are done with the general provisioning
+Now we are done with the general provisioning. Time to think about doing the real stuff.
 
 ### Prepare for work
 In this step I will check out the repository, create virtual environment, and install project dependencies with pip.
@@ -252,7 +255,7 @@ I start with removing virtual environment created by the previous build, and cre
 If I re-use old virtual envirnoment, I can save 1-2 minutes by not installing all from scratch.
 But I would rather have 100% reproducible build and take this time/cost hit.
 
-Also note that I am not using `--system-site-packages` flag in this virtual environment. This will ignore any
+Also note that I am not using `--system-site-packages` flag when creating virtual environment. This will ignore any
 packages pre-installed globally in the image. One of them is system-wide installed `tensorflow-gpu`. I want
 to follow the best practices and have full control over the python package versions.
 
@@ -284,8 +287,8 @@ stage('Training') {
  }
 }
 ```
-This all should be very familiar now. The body of the stage steps is wrapped in `withCredentials` block
-that here exposes environment variable `$GOOGLE_APPLICATION_CREDENTUIALS` pointing to a secret file
+This all should be very familiar now. The body of the stag is wrapped in `withCredentials` block. Here we use it
+to expose environment variable `$GOOGLE_APPLICATION_CREDENTUIALS`, pointing to a secret file
 containing Google service account keys in JSON format. We need this to give EC2 worker read/write acces to Google Storage
 bucket.
 
