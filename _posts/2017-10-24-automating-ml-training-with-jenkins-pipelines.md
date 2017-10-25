@@ -157,6 +157,9 @@ Configuring Amazon EC2 plugin is straihhtforward. Following are the important po
 4. By default, worker policy is *Use this node as much as possible*. Change it to 
    *Use this worker only for jobs with matching labels*. These machines are expensive and we do not want to 
    spin them up for anything else.
+5. Use *Advanced* menu to add tags: Name=managed-by-jenkins. This helps me to see what is going on when I look at AWS EC2
+   console.
+6. Add label `tensorflow` to the configured AMI worker.
 
 ### Prompt for parameters
 My training job is parametrized (naturally). I am using `parameters` block to declare variables that training needs.
