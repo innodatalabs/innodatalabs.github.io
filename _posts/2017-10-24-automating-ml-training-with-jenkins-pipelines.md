@@ -218,7 +218,7 @@ But... That does not work on the newly started EC2!
 
 The reason being that newly created instances automatically run updates at instance creation time, in the background. 
 Instance may seem ready to work, but some `apt` process(es) are running in background, keeping `apt lock`. Attempt to
-eun out `apt install` will result in the error aquiring the lock.
+run `apt install` will result in the error aquiring the lock.
 
 We need to wait for the background updates to complete before installing our packages.
 
