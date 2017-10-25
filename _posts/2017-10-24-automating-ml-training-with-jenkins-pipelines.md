@@ -35,7 +35,7 @@ If I need to launch a new clean instance, I would need to move secrets to it som
 How to orchestrate all this with minimal manual effort and cost? Answer is... Jenkins! Read on.
 
 ## Jenkins to rule us all!
-[Jenkins](https://jenkins.io/) is one of the best and most widel used integration tools out there.
+[Jenkins](https://jenkins.io/) is one of the best and most widely used integration tools out there.
 
 Yes, it looks aging and cranky, and occasionally dies with OOM error (thanks, Java!). But it has an enourmous
 number of useful plugins. And it is free.
