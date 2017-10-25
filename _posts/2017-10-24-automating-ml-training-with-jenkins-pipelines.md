@@ -30,10 +30,12 @@ Another concern is managing credentials. We generally need:
 3. Private keys to enable upload to Google Storage bucket
 4. Secret configuration files to access private PyPI
 
-Jenkins to the rescue!
+If I need to launch a new clean instance, I would need to move secrets to it somehow.
+
+How to orchestrate all this with minimal manual effort and cost? Answer is... Jenkins! Read on.
 
 ## Jenkins to rule us all!
-[Jenkins](https://jenkins.io/) is still one of the best integration tools out there.
+[Jenkins](https://jenkins.io/) is one of the best and most widel used integration tools out there.
 
 Yes, it looks aging and cranky, and occasionally dies with OOM error (thanks, Java!). But it has an enourmous
 number of useful plugins. And it is free.
