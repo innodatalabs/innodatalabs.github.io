@@ -1,10 +1,12 @@
 ---
 author: Mike Kroutikov
-published: false
+published: true
 title: Automating ML Training With Jenkins Pipelines
 keywords: aws ec2, machine learning, jenkins, pipeline, tensorflow, google cloud
 ---
 # Automating ML Training With Jenkins Pipelines
+
+Work in Progress! Please come back later to see it in its full glory
 
 We want:
 
