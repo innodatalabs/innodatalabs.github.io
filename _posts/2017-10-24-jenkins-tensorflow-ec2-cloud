@@ -1,12 +1,12 @@
 ---
 author: Mike Kroutikov
 published: false
-title: Automate ML Model Training Using Jenkins
-keywords: aws ec2, machine learning, jenkins, tensorflow, google cloud
+title: Automating ML Training With Jenkins Pipelines
+keywords: aws ec2, machine learning, jenkins, pipeline, tensorflow, google cloud
 ---
-# How to automate ML training with Jenkins Pipelines
+# Automating ML Training With Jenkins Pipelines
 
-We want this:
+We want:
 
 1. Train models in Amazon EC2 cloud. GPU instances there are quite cheap
 
@@ -21,16 +21,16 @@ We want this:
      urls (but do not support S3 urls yet). This data is durable, and we will be training many models off it. Therefore
      we can not use worker local storage - data must survive worker termination!
    * use Google Storage bucket to store experiment results - checkpoints and TesorBoard events. Again, this data has
-     to be durable. Since Tensorboard natively support Google Storage urls, we can visualise experiment results
+     to be durable. Since Tensorboard natively supports Google Storage urls, we can visualise experiment results
      right off the Google Storage bucket!
 
 Doing the above manually is not hard, but does not scale well. Manually provisioning and starting EC2 workers
 is tedious and repetitive. If my training is expected to complete in the middle of the night, who will stop the EC2 machine?
 
-Another concern is managing of credentials. We generally need:
+Another concern is managing credentials. We generally need:
 
-1. Private keys to connect to the EC2 workers
-2. Secrets to checkout private repositories from GitHub and/or Bitbucket
+1. Private keys to connect to EC2 workers
+2. Username/password to checkout private repositories from GitHub and/or Bitbucket
 3. Private keys to enable upload to Google Storage bucket
 4. Secret configuration files to access private PyPI
 
@@ -42,21 +42,22 @@ Jenkins is still one of the best integration tools out there.
 Yes, it looks aging and cranky, and occasionally dies with OOM error (thanks, Java!). But it has an enourmous
 number of useful plugins. And it is free.
 
-Recent addition of Piplines in Jenkins is a very welcome development, as now I can store job descriptions
+Recent addition of Piplines in Jenkins is a very welcome development: now I can store job descriptions
 in the source tree and have proper versioning and change history.
 
 Global configuration (users, credentials, plugins) is still manual though. But I will live with that for the time being.
+In any case, I do not want to check in secret keys and have to manage them outsided of source control.
 
 ## The Plan
 
-1. Use **Amazon EC2 Plugin** and configure it to launch AMI we want. We should assign a good label to the cloud EC2 Jenkins
+1. Use Jenkin's **Amazon EC2 Plugin** and configure it to launch AMI we want. We should assign a good label to the cloud EC2 Jenkins
    workers - plugin will launch those on-demand when job requires a worker with that specific label.
 2. Create Google Cloud service account with the appropriate scope (`Google Storage Admin` role) and download its JSON
-   secret file. Name it `gcloud-jenkins.json`
-3. In Jenkins, configure a credential of type *File*, name it `google-jenkins` and upload `gclod-jenkins.json` file.
+   secret file. Name it `gcloud-jenkins.json`. We need this to read/write from/to Google Storage.
+3. In Jenkins, configure a credential of type *Secret File*, name it `gcloud-secret-file` and upload `gcloud-jenkins.json` file.
 4. In Jenkins, configure *Username/Password* credentials to access SCM (say, GitHub and/or Bitbucket). We will use it to
-   checkout private repositories
-5. In Jenkins, configure a credential of type *File*, name it `pip.conf` and upload private PIP config. This will enable
+   checkout private repositories.
+5. In Jenkins, configure a credential of type *Secret File*, name it `pip-conf` and upload private PIP config. This will enable
    us to access private PyPI repositories
 
 ## The Solution
@@ -64,42 +65,228 @@ Global configuration (users, credentials, plugins) is still manual though. But I
 Here is a Jenkins pipeline that does the thing ([gist](https://gist.github.com/mkroutikov/19ec3e0efd43a21ca93b7a5e6b4672f7)):
 ```!groovy
 pipeline {
-    // pay attention to label here. same label should be used by EC2 plugin defining scalable AMI
-    agent { node { label 'tensorflow-cpu' } }
-    // we need to ask user for the problem name (aka dataset name)
+  
+    // use only nodes marked as 'tensorflow'
+    agent { node { label 'tensorflow' } }
+  
+    // build parameters - these are prompted interactively
     parameters {
-        stringParam(defaultValue: '', description: 'Problem Name', name: 'problem')
+        string(defaultValue: '', description: 'Problem Name', name: 'problem')
     }
-    // for convenience, lets export PROBLEM_NAME and BUCKET, as we built from user input above
+  
     environment {
-        PROBLEM_NAME="${params.problem}"
-        BUCKET="gs://my-training-bucket-name.appspot.com/${params.problem}"
+        // convenience: define params as env variables
+        PROBLEM_NAME = "${params.problem}"
+        BUCKET       = "gs://training.innodatalabs.com/${params.problem}"
     }
+  
     stages {
+      
+        // make sure our private PyPI is accessible from this node
+        stage('Provision Private PyPI') {
+            steps {
+                withCredentials([file(credentialsId: "pip-conf-secret-file", variable: 'PIP_CONF')]) {
+                    sh "mkdir -p ~/.config/pip; cp -f $PIP_CONF ~/.config/pip/pip.conf"
+                }
+            }
+        }
+        
+        // apt install all required packages
+        // EC2 comes up with apt update processes already running. Therefore have to wait up to 10 minutes
+        // before our apt install can succeed
+        stage('Provision virtualenv') {
+            steps {
+                retry(20) {
+                    sleep(30)
+                    sh 'sudo apt-get install virtualenv -y'
+                }
+            }
+        }
+
+        // check out project and prepare Python3 virtual environment
         stage('Prepare') {
             steps {
-                git credentialsId: 'github-login', url: 'https://github.com/myself/my-cool-private-repo.git', branch: 'master'
-                sh 'virtualenv .venv --system-site-packages -p python3'
+                git credentialsId: "mikes-github-username-password", url: 'https://github.com/mkroutikov/my-cool-private-repo.git', branch: 'master'
+                sh 'rm -rf .venv; virtualenv .venv -p python3'
                 sh '''
                 . .venv/bin/activate
                 pip install -r requirements.txt
-                pip install -e .  // i need this because of console_scripts define in setup.py. YMMV
+                pip install tensorflow
+                pip install -e .
                 '''
             }
         }
-        stage('Generate data') {
+        
+        // do the real thing. Since tensorflow trainer writes to Google Storage, need
+        // GOOGLE_APLICATION_CREDENTIALS. For completeness, add timeout
+        stage('Training') {
             steps {
-                echo "Generating data for problem $PROBLEM_NAME"
-                // JSON file defined as File credential `gcloud-jenkins` should contain Google service account
-                //  having Gogole Storage Admin priveleges
-                withCredentials([file(credentialsId: 'gcloud-jenkins', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
-                    sh """
-                    . .venv/bin/activate
-                    python -m my_cool_datagen --data_dir $BUCKET --problem $PROBLEM_NAME
-                    """
+                echo "Training problem $PROBLEM_NAME"
+                withCredentials([file(credentialsId: "gcloud-storage-secret", variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+                    timeout(time: 5, unit: 'HOURS') {
+                        sh """
+                        . .venv/bin/activate
+                        my-cool-trainer --data_dir $BUCKET/data --problem $PROBLEM_NAME
+                        """
+                    }
                 }
+                echo "All done"
             }
         }
     }
 }
 ```
+
+Well, that is mouthful, for sure. Let us look at each piece.
+
+## Declare agent
+```
+agent { node { label 'tensorflow' } }
+```
+We want this job to be executed on a worker machine having label `tensorflow`.
+
+I will **not** allocate any permanent machine as a `tensorflow` worker though. Instead,
+I will configure Amazon EC2 plugin to spin off EC2 worker on-demand, and stop it after 10 minute idle timeout.
+
+Configuring Amazon EC2 plugin is straihhtforward. Following are the important points:
+1. Choose "Ubuntu Deep Learning" public AMI image. It comes with CUDA libraries installed.
+2. Cap number of instances to avoid Jenkins spinning up too many workers.
+3. Choose the option to Stop instance on idle timeout. Otherwise it will be terminating idle instance. 
+   Spinning up stopped instance is significantly faster.
+4. By default, worker policy is *Use this node as much as possible*. Change it to 
+   *Use this worker only for jobs with matching labels*. These machines are expensive and we do not want to 
+   spin them up for anything else.
+
+## Prompt for parameters
+My training job is parametrized (naturally). I am using `parameters` block to declare variables that training needs.
+At the build time Jenkins will prompt user for the values.
+
+```
+parameters {
+   string(defaultValue: '', description: 'Problem Name', name: 'problem')
+}
+```
+
+In any step I can now refer to the parameter as ${params.problem}. More realistic training job will have
+many more parameters.
+
+## Set-up the Environment
+For convenience I define some environment variables. Note that previously declared parameters can be used
+when building variable value.
+
+```
+environment {
+  PROBLEM_NAME = "${params.problem}"
+  BUCKET       = "gs://training.innodatalabs.com/${params.problem}"
+}
+```
+
+## Provision access to private PyPI
+On my laptop I have a file `~/.config/pip/pip.conf` that adds private PyPI repository. This way `pip install`
+transparently works with public packages and private packages.
+
+To have the same facility on EC2 worker I will configure "Secret File" in Jenkins. Then, provision step looks like this:
+```
+stage('Provision Private PyPI') {
+   steps {
+       withCredentials([file(credentialsId: "pip-conf-secret-file", variable: 'PIP_CONF')]) {
+           sh "mkdir -p ~/.config/pip; cp -f $PIP_CONF ~/.config/pip/pip.conf"
+       }
+   }
+}
+```
+Most interesting part here is `withCredentials` arument. Note the name `pip-conf-secret-file`. It refers to a credentials configured 
+in Jenkins. To configure this go to `Jenkins/Credentials` menu and further choose `System` sub-menu. Then `Add credentials`.
+Choose credential type to be `Secret File`, enter `pip-conf-secret-file` as credentials id, and upload my `pip.conf`.
+
+## Provision Packages
+Then we want to make sure that packages we need are installed. Specifically, I will need `virtualenv` one.
+
+That would be as simple as running
+```
+apt update; apt install virtualenv -y
+```
+
+But... That does not work on a newly started EC2! The reason being that newly created instances automatically run
+updates at instance creation time, in the background. Instance may seem ready to work, but some `apt` process(es) are
+running in background, keeping `apt lock`.
+
+We need to wait for the background updates to complete before installing our packages.
+
+My solution is to keep trying for about 10 minuts. Typically, automatic updates will complete in about 5-6 minutes.
+
+Here is the Pipeline part for that:
+```
+stage('Provision packages') {
+   steps {
+       retry(20) {
+           sleep(30)
+           sh 'sudo apt-get install virtualenv -y'
+       }
+   }
+}
+
+```
+
+Now we are done with the general provisioning
+
+## Prepare for work
+In this step I will check out the repository, create virtual environment, and install project dependencies with pip.
+
+```
+stage('Prepare') {
+   steps {
+       sh 'rm -rf .venv; virtualenv .venv -p python3'
+       git credentialsId: "mikes-github-username-password", url: 'https://github.com/mkroutikov/my-cool-private-repo.git', branch: 'master'
+       sh '''
+       . .venv/bin/activate
+       pip install -r requirements.txt
+       pip install tensorflow
+       pip install -e .
+       '''
+   }
+}
+```
+I start with removing virtual environment created by the previous build, and creating a new fresh one. I like to have 100% reproducible
+builds. If I re-use old virtual envirnoment, I can save 1-2 minutes by not installing all from scratch. But I believe
+that starting from clean system is ???
+
+Also note that I am not using `--system-site-packages` flag in this virtual environment. This will ignore any
+packages pre-installed globally in the image. One of them is system-wide installed `tensorflow-gpu`. This is
+to follow the best practices and have full control over the python package versions.
+
+Next, I am checking out my private repository from HitHub. Note the familiar technique of supplying credentials
+by name. You should have guessed by now that these credentials were configured in Jenkins as "Username/Password" 
+credentials with my name and password.
+
+Things to note in the preparation step are:
+* I am installing tensorflow explicitly. This is because it is not in my `requirements.txt`
+* I am using development install of my repository. The reason for this is cosmetic: I have `console_scripts` commands
+  defined in `setup.py` and want to use them as executable commands (without the need to run the `python` explicitly).
+  The result of running this development install will be that command `my-cool-trainer` is now available in the
+  virtual environment!
+
+## Doing the work
+  
+```
+stage('Training') {
+   steps {
+       withCredentials([file(credentialsId: "gclud-storage-secret-file", variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+           timeout(time: 5, unit: 'HOURS') {
+               sh """
+               . .venv/bin/activate
+               my-cool-trainer --data_dir $BUCKET/data --problem $PROBLEM_NAME
+               """
+           }
+       }
+       echo "All done"
+   }
+}
+```
+This all should be very familiar now. The body of the stage steps is wrapped in `withCredentials` block
+that here exposes environment variable `$GOOGLE_APPLICATION_CREDENTUIALS` pointing to a secret file
+containing Google service account keys in JSON format. We need this to give EC2 worker read/write acces to Google Storage
+bucket.
+
+Step body is wrapped in `timeout` block. This is to control training time. With some hyperparameters choice
+training may run forever.
