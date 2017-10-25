@@ -173,7 +173,7 @@ parameters {
 }
 ```
 
-In any step I can now refer to the parameter as ${params.problem}. More realistic training job will have
+In any step I can now refer to the parameter as `${params.problem}`. More realistic training job will have
 few more parameters: `model`, `hparam`, etc.
 
 ### Set-up the Environment
