@@ -11,13 +11,13 @@ What I want is:
 3. Store training data and experiment results in Google Storage. This is dictated by our framework choice (TensorFlow). TF
    natively works with Google Storage urls, but does not yet support S3 urls. In more details:
    * use worker local disk as `temp` space for downloading dataset in its native format, and unpacking.
-     we use local storage because tools like `tar`, `zip`, `curl` do not support cloud storage
+     We have to use local storage because tools like `tar`, `zip`, `curl` only work with local filesystem, no cloud.
    * use Google Storage bucket to store preprocessed data. TF has built-in unitilies for data preparation
      and storing in space-efficient `TFRecord` format. All these utilities transparently support Google Storage cloud
      urls (but do not support S3 urls yet). This data is durable, and we will be training many models off it. Therefore
      we can not use worker local storage - data must survive worker termination!
    * use Google Storage bucket to store experiment results - checkpoints and TesorBoard events. Again, this data has
-     to be durable. Since Tensorboard natively supports Google Storage urls, we can visualise experiment results
+     to be durable. Since TensorBoard natively supports Google Storage urls, we can visualise experiment results
      right off the Google Storage bucket!
 
 Doing the above manually is not hard, but does not scale well. Manually provisioning and starting EC2 workers
@@ -302,4 +302,5 @@ What I can do now is:
 2. Start many jobs that will either run sequentially, or in parallel on multiple EC2 workers (this is controlled
    by the instance cap we set when configuring Amazon EC2 Plugin). If not enough workers are available
    training job will stay in the Jenkins queue waiting for the next available worker.
-3. Most importantly, I can stop worrying about EC2 workers idling and wasting my budget.
+3. Monitor training progress with TesorBoard tool, pointing it to the Google Storage bucket with experiments.
+4. Last, but not least - I can stop worrying about EC2 workers idling and wasting my budget.
