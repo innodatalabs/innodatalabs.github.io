@@ -136,9 +136,12 @@ pipeline {
 }
 ```
 
-Well, that is mouthful, for sure. Let us look at each piece.
+Well, that is a mouthful, for sure. 
 
-## Declare agent
+## The Explanation
+Let us look at each piece separately.
+
+### Declare agent
 ```groovy
 agent { node { label 'tensorflow' } }
 ```
@@ -156,7 +159,7 @@ Configuring Amazon EC2 plugin is straihhtforward. Following are the important po
    *Use this worker only for jobs with matching labels*. These machines are expensive and we do not want to 
    spin them up for anything else.
 
-## Prompt for parameters
+### Prompt for parameters
 My training job is parametrized (naturally). I am using `parameters` block to declare variables that training needs.
 At the build time Jenkins will prompt user for the values.
 
@@ -169,7 +172,7 @@ parameters {
 In any step I can now refer to the parameter as ${params.problem}. More realistic training job will have
 many more parameters.
 
-## Set-up the Environment
+### Set-up the Environment
 For convenience I define some environment variables. Note that previously declared parameters can be used
 when building variable value.
 
@@ -180,7 +183,7 @@ environment {
 }
 ```
 
-## Provision access to private PyPI
+### Provision access to private PyPI
 On my laptop I have a file `~/.config/pip/pip.conf` that adds private PyPI repository. This way `pip install`
 transparently works with public packages and private packages.
 
@@ -198,7 +201,7 @@ Most interesting part here is `withCredentials` arument. Note the name `pip-conf
 in Jenkins. To configure this go to `Jenkins/Credentials` menu and further choose `System` sub-menu. Then `Add credentials`.
 Choose credential type to be `Secret File`, enter `pip-conf-secret-file` as credentials id, and upload my `pip.conf`.
 
-## Provision Packages
+### Provision Packages
 Then we want to make sure that packages we need are installed. Specifically, I will need `virtualenv` one.
 
 That would be as simple as running
@@ -229,7 +232,7 @@ stage('Provision packages') {
 
 Now we are done with the general provisioning
 
-## Prepare for work
+### Prepare for work
 In this step I will check out the repository, create virtual environment, and install project dependencies with pip.
 
 ```groovy
@@ -265,7 +268,7 @@ Things to note in the preparation step are:
   The result of running this development install will be that command `my-cool-trainer` is now available in the
   virtual environment!
 
-## Doing the work
+### Doing the work
   
 ```groovy
 stage('Training') {
@@ -289,3 +292,13 @@ bucket.
 
 Step body is wrapped in `timeout` block. This is to control training time. With some hyperparameters choice
 training may run forever.
+
+## Conclusion
+
+What I can do now is: 
+
+1. Trigger my training from Jenkins UI.
+2. Start many jobs that will either run sequentially, or in parallel on multiple EC2 workers (this is controlled
+   by the instance cap we set when configuring Amazon EC2 Plugin). If not enough workers are available
+   training job will stay in the Jenkins queue waiting for the next available worker.
+3. Most importantly, I can stop worrying about EC2 workers idling and wasting my budget.
