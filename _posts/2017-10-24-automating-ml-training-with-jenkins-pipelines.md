@@ -46,7 +46,7 @@ In any case, I do not want to put secret keys in source control.
 
 ## The Plan
 
-1. Use Jenkin's (**Amazon EC2 Plugin**)[https://wiki.jenkins.io/display/JENKINS/Amazon+EC2+Plugin] 
+1. Use Jenkin's [**Amazon EC2 Plugin**](https://wiki.jenkins.io/display/JENKINS/Amazon+EC2+Plugin])
    and configure it to launch the AMI we want. We should assign a good label to the cloud EC2 Jenkins
    workers - plugin will launch those on-demand when job requires a worker with that specific label.
 2. Create Google Cloud service account with the appropriate scope (`Google Storage Admin` role) and download its JSON
