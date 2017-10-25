@@ -45,7 +45,7 @@ Recent addition of Piplines in Jenkins is a very welcome development: now I can 
 in the source tree and have proper versioning and change history.
 
 Global configuration (users, credentials, plugins) is still manual though. But I will live with that for the time being.
-In any case, I do not want to check in secret keys and have to manage them outsided of source control.
+In any case, I do not want to put secret keys in source control.
 
 ## The Plan
 
@@ -62,7 +62,7 @@ In any case, I do not want to check in secret keys and have to manage them outsi
 ## The Solution
 
 Here is a Jenkins pipeline that does the thing ([gist](https://gist.github.com/mkroutikov/19ec3e0efd43a21ca93b7a5e6b4672f7)):
-```!groovy
+```groovy
 pipeline {
   
     // use only nodes marked as 'tensorflow'
@@ -139,7 +139,7 @@ pipeline {
 Well, that is mouthful, for sure. Let us look at each piece.
 
 ## Declare agent
-```
+```groovy
 agent { node { label 'tensorflow' } }
 ```
 We want this job to be executed on a worker machine having label `tensorflow`.
@@ -160,7 +160,7 @@ Configuring Amazon EC2 plugin is straihhtforward. Following are the important po
 My training job is parametrized (naturally). I am using `parameters` block to declare variables that training needs.
 At the build time Jenkins will prompt user for the values.
 
-```
+```groovy
 parameters {
    string(defaultValue: '', description: 'Problem Name', name: 'problem')
 }
@@ -173,7 +173,7 @@ many more parameters.
 For convenience I define some environment variables. Note that previously declared parameters can be used
 when building variable value.
 
-```
+```groovy
 environment {
   PROBLEM_NAME = "${params.problem}"
   BUCKET       = "gs://training.innodatalabs.com/${params.problem}"
@@ -185,7 +185,7 @@ On my laptop I have a file `~/.config/pip/pip.conf` that adds private PyPI repos
 transparently works with public packages and private packages.
 
 To have the same facility on EC2 worker I will configure "Secret File" in Jenkins. Then, provision step looks like this:
-```
+```groovy
 stage('Provision Private PyPI') {
    steps {
        withCredentials([file(credentialsId: "pip-conf-secret-file", variable: 'PIP_CONF')]) {
@@ -202,7 +202,7 @@ Choose credential type to be `Secret File`, enter `pip-conf-secret-file` as cred
 Then we want to make sure that packages we need are installed. Specifically, I will need `virtualenv` one.
 
 That would be as simple as running
-```
+```bash
 apt update; apt install virtualenv -y
 ```
 
@@ -215,7 +215,7 @@ We need to wait for the background updates to complete before installing our pac
 My solution is to keep trying for about 10 minuts. Typically, automatic updates will complete in about 5-6 minutes.
 
 Here is the Pipeline part for that:
-```
+```groovy
 stage('Provision packages') {
    steps {
        retry(20) {
@@ -232,7 +232,7 @@ Now we are done with the general provisioning
 ## Prepare for work
 In this step I will check out the repository, create virtual environment, and install project dependencies with pip.
 
-```
+```groovy
 stage('Prepare') {
    steps {
        sh 'rm -rf .venv; virtualenv .venv -p python3'
@@ -267,7 +267,7 @@ Things to note in the preparation step are:
 
 ## Doing the work
   
-```
+```groovy
 stage('Training') {
    steps {
        withCredentials([file(credentialsId: "gclud-storage-secret-file", variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
