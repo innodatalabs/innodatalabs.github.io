@@ -24,7 +24,7 @@ b) Verify your NVIDIA graphics driver is 384.81 or newer
 
 You should see the driver version in the top of the output similar to the following:
 
-```
+
     +-------------------------------------------------------------------------+
     | NVIDIA-SMI 390.12                 Driver Version: 390.12                |
     |-------------------------------+----------------------+------------------+
@@ -35,8 +35,7 @@ You should see the driver version in the top of the output similar to the follow
     |  0%   30C    P8    17W / 275W |    522MiB / 11175MiB |      0% Default |
     +-------------------------------+----------------------+-----------------+
 
-    Note: To install up-to-date NVIDIA graphics drivers, go to [NVIDIA download drivers](http://www.nvidia.com/Download/index.aspx?lang=en-us) and follow the instructions
-```
+To install up-to-date NVIDIA graphics drivers, go to [NVIDIA download drivers](http://www.nvidia.com/Download/index.aspx?lang=en-us) and follow the instructions
 
 c) Verify your version of Linux is supported
 
@@ -149,7 +148,7 @@ Go to: [NVIDIA cuDNN home page](https://developer.nvidia.com/cudnn), login and d
 
 a) Navigate to the directory containing cuDNN Debian files
     
-b)Install the runtime library
+b) Install the runtime library
 
     $ sudo dpkg -i libcudnn7_7.0.3.11-1+cuda9.0_amd64.deb
 
@@ -168,7 +167,7 @@ To verify that cuDNN is installed and is running properly, compile the mnistCUDN
 a) Copy the cuDNN sample to a writable path and go to that folder
 
     $ cp -r /usr/src/cudnn_samples_v7/ $HOME
-    $ cd  $HOME/cudnn_samples_v7/mnistCUDNN
+    $ cd $HOME/cudnn_samples_v7/mnistCUDNN
 
 b) Compile the mnistCUDNN sample
 
@@ -190,7 +189,7 @@ If cuDNN is properly installed and running, you will see a message similar to th
 
 a) Create and navigate to a directory to containing TensorFlow files
 
-b) Dowload TensorFlow
+b) Download TensorFlow
 
     $ wget https://github.com/tensorflow/tensorflow/archive/v1.5.0-rc1.zip
 
@@ -296,7 +295,7 @@ The bazel build command builds a script named build_pip_package. Running this sc
 
 ## Install the pip package 
 
-a) Create and activate a virutal environment
+a) Create and activate a virtual environment
 
 b) Invoke pip install to install that pip package
 
