@@ -325,5 +325,9 @@ If the system outputs the following, then you are ready to begin writing TensorF
 For more information, please visit the following links:
 
 a) [CUDA toolkit documentation](http://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#ubuntu-installation)
+
 b) [Deep learning SDK documentation](http://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html)
+
 c) [Installing TensorFlow from sources](https://www.tensorflow.org/install/install_sources)
+
+
