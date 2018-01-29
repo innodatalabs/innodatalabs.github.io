@@ -1,7 +1,7 @@
 ---
 title: How to build Tensorflow-GPU from source 
 author: Michael Yee
-published: false
+published: post
 ---
 
 In this blog, I will be describing the step by step instructions to install TensorFlow-GPU version 1.5.0-rc1 into a Python 3.5 Virtualenv environment on Ubuntu 16.04 (64bit).
