@@ -3,7 +3,7 @@ title: Classifying Autonomy
 author: David Nadeau
 layout: post
 published: false
-----
+---
 
 Classifying Autonomy
 
