@@ -35,10 +35,10 @@ Here's a scale for Expert Augmentation and Automation Software (EAAS). EAAS is a
 A simple function is automated and does not need to be re-trained or changed over time. This applies to closed-world tasks (e.g., writing up a meteo report based on a small set of numeric values), activities where rules are fixed and can't change (e.g., sorting images between black and white, grayscale or color). 
 
 ### Level 2: 
-A more complex function is automated using rules or ML and must be trained or updated from time to time to maintain its accuracy. As time goes and world changes, new examples must be taken into account by the system to perform well. Training must be performed by EAAS engineer, either by encoding knowledge into the system or by applying machine learning to continuously growing dataset. 
+A more complex function is automated using rules or ML and must be trained or updated from time to time to maintain its accuracy. As time goes and world changes, new examples must be taken into account by the system to perform well. Training must be performed by EAAS engineer, either by encoding knowledge into the system or by applying machine learning on a continuously growing dataset. 
 
 ### Level 3: 
-In this level, a more complex function is automated with ML and an automated feedback loop. As time goes and world changes, the system is automatically retrained and updated without requiring an EAAS engineer to oversee the operations. Level 3 systems are at the mercy of concept drifts or change in the task accomplished. Upon detection, such problems have to be solved by EAAS engineers.
+In this level, a more complex function is automated with ML plus an automated feedback loop. As time goes and world changes, the system is automatically retrained and updated without requiring an EAAS engineer to oversee the operations. Level 3 systems are at the mercy of concept drifts, change in the task accomplished or inconsistant work from experts. Upon detection, such problems have to be solved by EAAS engineers.
 
 ### Level 4: 
 Fully autonomous level, where EAAS system can solve a problem in the first place but also diagnose inconsistencies and adjust target for concept drifts automatically.
