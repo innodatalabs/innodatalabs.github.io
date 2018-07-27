@@ -29,6 +29,8 @@ Fully autonomous level, can handle any driving scenario, including off-road oper
 ## In Expert Augmentation Software:
 Here's a scale for Expert Augmentation and Automation Software (EAAS). EAAS is a type of software platform where subject matter experts perform cognitive tasks such as summarizing information, linking concepts or indexing documents with the help of automation tools such as machine learning (ML) or robotic software automation (RPA). These types of software programs and systems [are said](https://www.techopedia.com/definition/33235/expert-automation-and-augmentation-software-eaas) to be taking over the work of semi-skilled white-collar workers in the knowledge economy. 
 
+[![Image source: cbinsights.com](../images/EAAS_Jan_2018_1-768x589.png)](https://www.cbinsights.com/research/expert-automation-augmentation-software-eaas/)
+
 ### Level 1: 
 A simple function is automated and does not need to be re-trained or changed over time. This applies to closed-world tasks (e.g., writing up a meteo report based on a small set of numeric values), activities where rules are fixed and can't change (e.g., sorting images between black and white, grayscale or color). 
 
