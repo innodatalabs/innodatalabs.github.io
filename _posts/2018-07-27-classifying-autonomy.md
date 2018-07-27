@@ -1,13 +1,12 @@
 ---
+layout: post
 title: Classifying Autonomy
 author: David Nadeau
-layout: post
-published: false
 ---
 
-Classifying Autonomy
+# Classifying Autonomy
 
-In Vehicules:
+## In Vehicules:
 
 In non-autonomous vehicule; the driver has sole control of the vehicle. On his blog (https://blog.andplus.com/the-5-levels-of-autonomy), Abdul Dremaly summarizes well the five-level classification scale for autonomous vehicles proposed by The Society of Automotive Engineers (SAE). In order to help automotive engineers, governments, and insurers get a better handle on this new technology, SAE defined the five levels of automobile autonomy: 
 
@@ -21,7 +20,7 @@ Level 4: Fully autonomous level, where the car handles all driving decisions wit
 
 Level 5: Fully autonomous level, can handle any driving scenario, including off-road operation.
 
-In Expert Augmentation Software:
+## In Expert Augmentation Software:
 
 Here's a scale for Expert Augmentation and Automation Software (EAAS). EAAS is a type of software platform where subject matter experts perform cognitive tasks such as summarizing information, linking concepts or indexing documents with the help of automation tools such as machine learning (ML) or robotic software automation (RPA). These types of software programs and systems are said to be taking over the work of semi-skilled white-collar workers in the knowledge economy. (https://www.techopedia.com/definition/33235/expert-automation-and-augmentation-software-eaas)
 
