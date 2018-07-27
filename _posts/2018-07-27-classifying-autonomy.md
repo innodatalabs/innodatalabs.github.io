@@ -8,7 +8,7 @@ Inspired by autonomous vehicules classification scale, we propose here a scale f
 
 ## In Vehicules:
 
-In non-autonomous vehicule; the driver has sole control of the vehicle. On his [blog] (https://blog.andplus.com/the-5-levels-of-autonomy), Abdul Dremaly summarizes well the five-level classification scale for autonomous vehicles proposed by The Society of Automotive Engineers (SAE). In order to help automotive engineers, governments, and insurers get a better handle on this new technology, SAE defined the five levels of automobile autonomy: 
+In non-autonomous vehicule; the driver has sole control of the vehicle. On his [blog](https://blog.andplus.com/the-5-levels-of-autonomy), Abdul Dremaly summarizes well the five-level classification scale for autonomous vehicles proposed by The Society of Automotive Engineers (SAE). In order to help automotive engineers, governments, and insurers get a better handle on this new technology, SAE defined the five levels of automobile autonomy: 
 
 ### Level 1: 
 A single function is automated, but does not necessarily use information about the driving environment. A car operating under simple cruise control would qualify as Level 1.
