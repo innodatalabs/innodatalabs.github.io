@@ -4,10 +4,10 @@ author: David Nadeau
 published: post
 ---
 
-Inspired by autonomous vehicules classification scale, we propose here a scale for expert augmentation and automation software.
+Inspired by autonomous vehicles classification scale, we propose here a scale for expert augmentation and automation software.
 
-## In Vehicules:
-In non-autonomous vehicule; the driver has sole control of the vehicle. On his [blog](https://blog.andplus.com/the-5-levels-of-autonomy), Abdul Dremaly summarizes well the five-level classification scale for autonomous vehicles proposed by The Society of Automotive Engineers (SAE). In order to help automotive engineers, governments, and insurers get a better handle on this new technology, SAE defined the five levels of automobile autonomy: 
+## In Vehicles:
+In non-autonomous vehicle; the driver has sole control of the vehicle. On his [blog](https://blog.andplus.com/the-5-levels-of-autonomy), Abdul Dremaly summarizes well the five-level classification scale for autonomous vehicles proposed by The Society of Automotive Engineers (SAE). In order to help automotive engineers, governments, and insurers get a better handle on this new technology, SAE defined the five levels of automobile autonomy: 
 
 [![Image source: martechtoday.com](../images/Self-Driving-Interior-800x450.png)](https://martechtoday.com/autonomous-vehicles-provide-next-screens-publishers-advertisers-201914)
 
