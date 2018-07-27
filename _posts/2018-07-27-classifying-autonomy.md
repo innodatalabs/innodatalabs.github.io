@@ -4,8 +4,6 @@ author: David Nadeau
 published: post
 ---
 
-# Classifying Autonomy
-
 Inspired by autonomous vehicules classification scale, we propose here a scale for expert augmentation and automation software.
 
 ## In Vehicules:
