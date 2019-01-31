@@ -21,23 +21,23 @@ Ben was in New Your City on Monday
 
 IOB:
 ```
-Ben##I-PER was##O in##O New##I-LOC York##I-LOC City##I-LOC on##O Monday##O
+Ben/I-PER was/O in/O New/I-LOC York/I-LOC City/I-LOC on/O Monday/O
 ```
-Here I used suffix notation to show label of each word. For clarity, I will omit `##O` from now on:
+Here I used suffix notation to show label of each word. For clarity, I will omit `/O` from now on:
 
 IOB:
 ```
-Ben##I-PER was in New##I-LOC York##I-LOC City##I-LOC on Monday
+Ben/I-PER was in New/I-LOC York/I-LOC City/I-LOC on Monday
 ```
 
 BIO:
 ```
-Ben##B-PER was in New##B-LOC York##I-LOC City##I-LOC on Monday
+Ben/B-PER was in New/B-LOC York/I-LOC City/I-LOC on Monday
 ```
 
 BIOES:
 ```
-Ben##S-PER was in New##B-LOC York##I-LOC City##E-LOC on Monday
+Ben/S-PER was in New/B-LOC York/I-LOC City/E-LOC on Monday
 ```
 
 ## Transition rules for BIOES
