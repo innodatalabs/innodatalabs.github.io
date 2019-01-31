@@ -174,5 +174,10 @@ Best policy: `F1=88.74`
 
 Worst policy: `F1=87.60`
 
-Ad-hoc F1 range:
+## Summary
 
+![image](https://user-images.githubusercontent.com/14280777/52069939-c76c8c00-254d-11e9-857b-a5e8526e6a08.png)
+
+1. Use Viterbi
+2. Use Viterbi
+3. Use Viterbi
