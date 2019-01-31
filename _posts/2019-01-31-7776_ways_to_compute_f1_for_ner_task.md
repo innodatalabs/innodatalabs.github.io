@@ -198,12 +198,13 @@ If I slap a top CRF layer on top of the neral net and train, will it help me to 
 
 It depends.
 
-There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [Constrained CRF of AllenNLP](https://github.com/allenai/allennlp/blob/89729e041f9163988c9fd6f5592258e11956c431/allennlp/modules/conditional_random_field.py#L324).
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [Constrained CRF of AllenNLP](https://github.com/allenai/allennlp/blob/89729e041f9163988c9fd6f5592258e11956c431/allennlp/modules/conditional_random_field.py#L324)).
 
-Others allow all transitions, relying on training to discourage bad transitions (e.g. [Jie Yang et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing" or constrained decoding.
+Others allow all transitions, relying on training to discourage bad transitions (e.g. [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf)).
 
-From my "purist" view, AllenNLP approach is cleaner: use constrained CRF at train and test time, but this claim is
-not substantiated by experimets.
+The latter does NOT guarantee that output sequence will be legal. Thus, latter will require label "fixing" or constrained decoding.
+
+From my "purist" view, AllenNLP approach is cleaner: use constrained CRF at train and test time.
 
 ## Comparing F1 with other results in the literature
 At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. There is no way to say which F1 is better unless both are computed using the same rules.
