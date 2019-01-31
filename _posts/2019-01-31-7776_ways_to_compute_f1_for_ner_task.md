@@ -67,7 +67,7 @@ the possibility of generating invalid label sequences. Hence we need to "fix" th
 There are many, many ways to do the fixing. If we just look at two labels there are `6^5=7776` of them!
 What if we are not looking at just two labels, but consider wider context? Well, we will have even more ways to fix! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
 
-We want to find label sequence
+We want to find label sequence that:
 - obeys transition constraints, and
 - maximizes the sum of logits for the labels along this path
 
