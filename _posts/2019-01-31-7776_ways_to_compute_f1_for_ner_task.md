@@ -86,7 +86,7 @@ I trained a simple GloVe+BidiLSTM model on English NER task, using training para
 Naive computation of labels (`argmax`) gave me `99` invalid label pairs. This is **1.95%** of the total number of 
 "golden" entities in the test set. Hmm, looks like it *may* matter.
 
-Now, lets try some heuristics for "fix" bad transitions.
+Now, lets try some heuristics for "fixing" bad transitions.
 
 Attempt 1 (close to what is used in [Jie Yang et.al.](https://arxiv.org/pdf/1806.04470.pdf)):
 ```python
