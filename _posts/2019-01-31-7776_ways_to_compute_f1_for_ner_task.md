@@ -194,9 +194,13 @@ Lets display the range of `F1` scores for this NER task:
 First, note that using Viterbi decoding on logits has nothing to do with CRF. Here, the purpose of Viterbi is just to enforce
 the transition constraints (note that there are no transition weights per se).
 
-If I slap a top CRF layer on top of the neral net and train, will it help me to avoid invalid labels? It depends.
+If I slap a top CRF layer on top of the neral net and train, will it help me to avoid invalid labels?
 
-There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [Constrained CRF of AllenNLP](https://github.com/allenai/allennlp/blob/89729e041f9163988c9fd6f5592258e11956c431/allennlp/modules/conditional_random_field.py#L324). Others allow all transitions, relying on training to discourage bad transitions (e.g. [Jie Yang et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing" or constrained decoding.
+It depends.
+
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [Constrained CRF of AllenNLP](https://github.com/allenai/allennlp/blob/89729e041f9163988c9fd6f5592258e11956c431/allennlp/modules/conditional_random_field.py#L324).
+
+Others allow all transitions, relying on training to discourage bad transitions (e.g. [Jie Yang et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing" or constrained decoding.
 
 From my "purist" view, AllenNLP approach is cleaner: use constrained CRF at train and test time, but this claim is
 not substantiated by experimets.
