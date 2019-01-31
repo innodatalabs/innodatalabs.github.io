@@ -174,9 +174,21 @@ Best policy: `F1=88.74`
 
 Worst policy: `F1=87.60`
 
-## Summary
-
 ![image](https://user-images.githubusercontent.com/14280777/52069939-c76c8c00-254d-11e9-857b-a5e8526e6a08.png)
+
+## Top CRF layer does not (always) guarantees good labels
+First, note that using Viterbi decoding on logits has nothing to do with CRF. Here, the purpose of Viterbi is just to enforce
+the transition constraints (note that there are no transition weights per se).
+
+If I slap a top CRF layer on top of the neral net, will it help me to avoid invalid labels? It depends.
+
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP)[]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing".
+
+## Comparing F1 with other results in the literature
+At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. What we are trying to find out is: which system (NN architecture) is better? For me "better" means not F1, but the performance in the production
+setting. For that I really need best logits, not best F1. And best logits is the one that gives best result using Viterbi.
+
+## Summary
 
 1. Use Viterbi
 2. Use Viterbi
