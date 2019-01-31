@@ -173,6 +173,9 @@ In the sketch above I replaced with `...` all places where we get unexpected tra
 
 I used my "best judgement" to pick the resolution. Result is: `F1=87.96`. So much for the "best judgement".
 
+![image](https://user-images.githubusercontent.com/14280777/52084674-918ccf00-2570-11e9-8463-82bca87a1356.png)
+
+### Viterbi to the rescue
 Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, that these are the same logits that gave Jie Yang et al only `F1=88.49+-17`.
 
 ## Lets try ALL ways to resolve invalid label pairs
