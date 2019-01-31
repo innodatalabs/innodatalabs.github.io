@@ -1,5 +1,5 @@
 ---
-title: 7776 ways to compute F1 for a NER task
+title: 7776 ways to compute F1 for an NER task
 author: Mike Kroutikov
 published: false
 ---
