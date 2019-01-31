@@ -184,7 +184,7 @@ Best policy: `F1=88.74`
 
 Worst policy: `F1=87.60`
 
-Interesting. Just using a different ad-hoc logit, one can affect the `F1` score by more than 1%.
+Interesting. Just using a different ad-hoc policy, one can affect the `F1` score by more than 1%.
 
 Lets display the range of `F1` scores for this NER task:
 
