@@ -195,12 +195,32 @@ the transition constraints (note that there are no transition weights per se).
 
 If I slap a top CRF layer on top of the neral net, will it help me to avoid invalid labels? It depends.
 
-There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP)[]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP][]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
 
 ## Side Note 2: Comparing F1 with other results in the literature
 At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. There is no way to say which F1 is better unless both are computed using the same rules.
 
-But how do I know how the reported F1 scores were computed?
+But how do I know how the reported F1 scores were computed? Luckily some researches provide code that we can check.
+
+1. Emma Strubell, Patrick Verga, David Belanger, and Andrew McCallum. 2017. Fast and accurate entity recognition
+with iterated dilated convolutions. In Proceedings of the 2017 Conference on Empirical Methods in Natural
+Language Processing, pages 2670–2680. 
+   
+   Uses [forward greedy search from guessed entity start positions](https://github.com/iesl/dilated-cnn-ner/blob/85147c1b2a59e40a1f241d428b15f2461214d06b/src/eval_f1.py#L49)
+
+2. Guillaume Lample, Miguel Ballesteros, Sandeep Subramanian, Kazuya Kawakami, and Chris Dyer. 2016.
+Neural architectures for named entity recognition.
+In NAACL
+   
+   Converts BIOES labels back to IOB labels and uses Perl script to [score](https://github.com/glample/tagger/blob/master/evaluation/conlleval)
+
+3. Jie Yang, Shuailong Liang, Yue Zhang. 2018. Design Challenges and Misconceptions in Neural Sequence Labeling
+
+   Ignores I and O labels, uses B, E, S ones to [resolve](https://github.com/jiesutd/NCRFpp/blob/191e29164a90e65686c6711386ec7e131f1c35e0/utils/metric.py#L73). Also, see above.
+   
+4. AllenNLP
+   
+   For BILOU encoding scheme uses forward search, raising exception on any invalid label [sequence](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L217). For BMES label encoding scheme, uses heuristics to resolve ill-formed [entities](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L376)
 
 ## Summary
 
