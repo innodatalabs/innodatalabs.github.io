@@ -4,7 +4,7 @@ author: Mike Kroutikov
 published: false
 ---
 
-TL;DR: Computing F1 measure on NER task implies fixing illegal label transitions. There are many ad-hoc ways to do this "fixing". Result can vary widely.
+TL;DR: Computing F1 measure on NER task implies fixing illegal label transitions. There are many ad-hoc ways to do this "fixing". Result can vary widely. Do not do ad-hoc, and use Viterbi decoding for the best results.
 
 ## Entity encoding schemes
 
@@ -81,8 +81,98 @@ that cite F1 scores as the comparison metric: [NLP progress](https://nlpprogress
 
 I trained a simple GloVe+BidiLSTM model, using training parameters from (???)[???], and saved all the logits for the test set.
 
-Naive computation of labels gave me 99 invalid label pairs. This is 1.95% of the total number of "golden" entities in the test set.
+Naive computation of labels gave me 99 invalid label pairs. This is 1.95% of the total number of "golden" entities in the test set. Hmm, looks like it may matter.
 
 Using Viterbi decoding, resulted in `F1=89.29`.
 
 Now, lets try some heuristics.
+
+Attempt 1 (close to what is used in [??](??}):
+```python
+Entity = collections.namedtuple('Entity', ['label', 'start', 'end'])
+
+def decode_entities_jie_bioes(labels):
+    pending = None
+
+    for i,l in enumerate(labels):
+        if l[:2] == 'B-':
+            if pending:
+                yield Entity(pending.label, pending.start, i)
+                pending = None
+            pending = SimpleNamespace(start=i, end=i+1, label=l[2:])
+        elif l[:2] == 'S-':
+            if pending is not None:
+                yield Entity(pending.label, pending.start, i)
+                pending = None
+            yield Entity(label=l[2:], start=i, end=i+1)
+        elif l[:2] == 'E-':
+            if pending is not None:  # jie does not check if B- uses the same label!
+                yield Entity(pending.label, pending.start, i + 1)
+                pending = None
+
+    if pending:
+        yield Entity(pending.label, pending.start, pending.end)
+```
+Result is `F1=88.53`. Hmm, very different from Viterbi.
+
+Note that this code effectively ignores `I` and `O` tags.
+
+Lets try to improve on this, by considering all labels.
+
+Attempt 2:
+```
+def decode_entities(labels):
+    pending = None
+    for i,l in enumerate(labels):
+        if l[:2] == 'B-':
+            if pending:
+                ...
+            else:
+                pending = SimpleNamespace(start=i, end=i+1, label=l[2:])
+        elif l[:2] == 'I-':
+            if pending is None:
+                ...
+            elif pending.label != l[2:]:
+                ...
+            else:
+                pending.end += 1
+        elif l == 'O':
+            if pending is not None:
+                ...
+        elif l[:2] == 'E-':
+            if pending is None:
+                ...
+            elif pending.label != l[2:]:
+                ...
+            else:
+                pending.end += 1
+                yield Entity(pending.label, pending.start, pending.end)
+                pending = None
+        elif l[:2] == 'S-':
+            if pending is not None:
+                ...
+            else:
+                yield Entity(label=l[2:], start=i, end=i+1)
+        else:
+            raise RuntimeError(f'Unrecognized label: {l}')
+
+    if pending:
+        ...
+```
+In the sketch above I replaced with `...` all places where we get unexpected transition and need to fix it.
+
+I used my "best judgement" to pick the resolution. Result is: `F1=87.96`. So much for the "best judgement".
+
+## Gauging all ways to resolve invalid label pairs
+
+After spectacular failure with my "best judgement" I inserted all possible entity resolution decisions at each point,
+made concrete decision be governed py "policy" passed to this function, and generated all possible combinations of
+policy decisions. Got total of 2880 combinations (this is less than maximum possible value of 7776, because some
+bad cases are effectively folded together in the code above).
+
+Best policy: `F1=88.74`
+
+Worst policy: `F1=87.60`
+
+Ad-hoc F1 range:
+
