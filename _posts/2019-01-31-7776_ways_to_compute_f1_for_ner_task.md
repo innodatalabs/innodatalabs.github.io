@@ -81,14 +81,14 @@ reported. But maybe it does not matter and heuristics gives the result that is a
 Here is a standard (easy) NER task: [CoNLL2003 challenge](http://aclweb.org/anthology/W03-0419). And here are 
 the SOTA results that cite `F1` scores as the comparison metric: [NLP progress](https://nlpprogress.com/english/named_entity_recognition.html).
 
-I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from [Jie Yang et.al.](https://arxiv.org/pdf/1806.04470.pdf), and saved all the logits for the test set.
+I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf), and saved all the logits for the test set.
 
 Naive computation of labels (`argmax`) gave me `99` invalid label pairs. This is **1.95%** of the total number of 
 "golden" entities in the test set. Hmm, looks like it *may* matter.
 
 Now, lets try some heuristics for "fixing" bad transitions.
 
-Attempt 1 (close to what is used in [Jie Yang et.al.](https://arxiv.org/pdf/1806.04470.pdf)):
+Attempt 1 (close to what is used in [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf)):
 ```python
 Entity = collections.namedtuple('Entity', ['label', 'start', 'end'])
 
@@ -165,7 +165,7 @@ In the sketch above I replaced with `...` all places where we get unexpected tra
 
 I used my "best judgement" to pick the resolution. Result is: `F1=87.96`. So much for the "best judgement".
 
-Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, that these are the same logits that gave Jie Yang et.al. only `F1=88.49+-17`.
+Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, that these are the same logits that gave Jie Yang et al only `F1=88.49+-17`.
 
 ## Lets try ALL ways to resolve invalid label pairs
 
@@ -193,7 +193,7 @@ the transition constraints (note that there are no transition weights per se).
 
 If I slap a top CRF layer on top of the neral net and train, will it help me to avoid invalid labels? It depends.
 
-There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP][]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP][]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie Yang et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
 
 ## Comparing F1 with other results in the literature
 At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. There is no way to say which F1 is better unless both are computed using the same rules.
