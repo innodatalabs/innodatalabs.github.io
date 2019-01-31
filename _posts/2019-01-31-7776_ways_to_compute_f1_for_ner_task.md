@@ -64,7 +64,8 @@ pred = torch.argmax(logits, dim=1)  # [S]
 This makes a "spot" prediction, picking label without any regard for the neighboring labels. This opens up
 the possibility of generating invalid label sequences. Hence we need to "fix" them before decoding entities.
 
-There are many, many ways to do the fixing. If we just look at two labels there are `6^5=7776` of them!
+There are many, many ways to do the fixing. If we just look at two labels there are `6^5=7776` of ways to replace invalid label pair with a valid one!
+
 What if we are not looking at just two labels, but consider wider context? Well, we will have even more ways to fix! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
 
 We want to find label sequence that:
@@ -173,8 +174,8 @@ Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. W
 
 After spectacular failure with my "best judgement" I inserted all possible entity resolution decisions at each point,
 made concrete decision be governed py "policy" passed to this function, and generated all possible combinations of
-policy decisions. Got total of 5760 combinations (this is less than maximum possible value of 7776, because some
-bad cases are effectively folded together in the code above. For example, invalid transitions `I->B` and `B->B`
+policy decisions. Got total of 5760 combinations (this is a bit less than 7776, because some
+bad cases are effectively folded together in my code. For example, invalid transitions `I->B` and `B->B`
 are decided in the same place).
 
 Now, lets run all these versions on the logits I have. Result:
