@@ -65,11 +65,11 @@ the possibility of generating invalid label sequences. Hence we need to "fix" th
 There are many ways to "fix" the predictions. In case of BMES we have `6^5 = 7776` ways of fixing invalid transitions, if
 we are only looking at two labels at a time - the current and the previous.
 
-What if are not looking at just two labels, but consider wider context? Well, we will have even more ways to aply the fixing! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
+What if we are not looking at just two labels, but consider wider context? Well, we will have even more ways to aply the fixing! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
 
 What we want is to find the path that
-a. obeys transition constraints, and
-b. maximizes the sum of logits along this path
+- obeys transition constraints, and
+- maximizes the sum of logits along this path
 
 This task is very well known and can be solved in `O(S*C*C)` using classical Viterbi algorithm. Being quadratic in 
 the number of labels, Viterbi can be quite slow. Yet this is the only mathematically optimal way to find entities
