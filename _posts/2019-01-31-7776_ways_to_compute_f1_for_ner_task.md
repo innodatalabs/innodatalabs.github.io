@@ -83,18 +83,18 @@ reported. But maybe it does not matter and heuristics gives the result that is a
 Here is a standard (easy) NER task: [CoNLL2003 challenge](http://aclweb.org/anthology/W03-0419). And here are 
 the SOTA results that cite `F1` scores as the comparison metric: [NLP progress](https://nlpprogress.com/english/named_entity_recognition.html).
 
-I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from (Jie Yang et.al.)[https://arxiv.org/pdf/1806.04470.pdf], and saved all the logits for the test set.
+I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from [Jie Yang et.al.](https://arxiv.org/pdf/1806.04470.pdf), and saved all the logits for the test set.
 
 Naive computation of labels (`argmax`) gave me `99` invalid label pairs. This is **1.95%** of the total number of 
 "golden" entities in the test set. Hmm, looks like it *may* matter.
 
 Now, lets try some heuristics for "fix" bad transitions.
 
-Attempt 1 (close to what is used in [Jie Yeang et.al.](https://arxiv.org/pdf/1806.04470.pdf):
+Attempt 1 (close to what is used in [Jie Yang et.al.](https://arxiv.org/pdf/1806.04470.pdf)):
 ```python
 Entity = collections.namedtuple('Entity', ['label', 'start', 'end'])
 
-def decode_entities_jie_bioes(labels):
+def decode_entities_jie(labels):
     pending = None
 
     for i,l in enumerate(labels):
@@ -118,13 +118,9 @@ def decode_entities_jie_bioes(labels):
 ```
 Result is `F1=88.53`. Hmm, sounds pretty good, and right in the interval reported by [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) for the same neural architecture (`F1=88.49+-17`).
 
-the value very different from Viterbi.
-https://arxiv.org/pdf/1806.04470.pdf
+Now, note that code above effectively ignores `I` and `O` tags. This does not feel right, right? Right?
 
-
-Now, note that code above effectively ignores `I` and `O` tags. This does not feel right, right?
-
-Lets try to improve on this, by considering all labels.
+Lets try to improve on this by considering all labels.
 
 Attempt 2:
 ```
