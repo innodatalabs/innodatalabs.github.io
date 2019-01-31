@@ -241,5 +241,6 @@ In NAACL
 ## Summary
 
 1. Use Viterbi
-2. Use Viterbi
-3. Use Viterbi
+2. Use Viterbi, pleeease
+3. When you see F1 score reported for NER task - check how it was computed. This matters!
+4. When somebody uses CRF, check how CRF is defined: is it constrained CRF or not? If not, how labels were fixed?
