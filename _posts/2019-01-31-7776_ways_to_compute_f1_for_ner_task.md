@@ -65,7 +65,7 @@ the possibility of generating invalid label sequences. Hence we need to "fix" th
 There are many ways to "fix" the predictions. In case of BMES we have `6^5 = 7776` ways of fixing invalid transitions, if
 we are only looking at two labels at a time - the current and the previous.
 
-What if we are not looking at just two labels, but consider wider context? Well, we will have even more ways to aply the fixing! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
+What if we are not looking at just two labels, but consider wider context? Well, we will have even more ways to fix! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
 
 What we want is to find the path that
 - obeys transition constraints, and
