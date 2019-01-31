@@ -240,6 +240,10 @@ In NAACL
    For BILOU encoding scheme uses forward search, raising exception on any invalid label [sequence](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L217). Apparently, this encoding scheme is only used with constrained CRF top layer.
    
    For BMES label encoding scheme, uses heuristics to resolve ill-formed [entities](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L376)
+   
+5. Flair: Alan Akbik, Duncan Blythe, and Roland Vollgraf. 2018. Contextual String Embeddings for Sequence Labeling
+
+   [Heuristics based on scores](https://github.com/zalandoresearch/flair/blob/master/flair/data.py#L356)
 
 ## Summary
 
