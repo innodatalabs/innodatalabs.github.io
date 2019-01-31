@@ -123,7 +123,7 @@ Now, note that code above effectively ignores `I` and `O` tags. This does not fe
 Lets try to improve on this by considering all labels.
 
 Attempt 2:
-```
+```python
 def decode_entities(labels):
     pending = None
     for i,l in enumerate(labels):
@@ -169,7 +169,7 @@ I used my "best judgement" to pick the resolution. Result is: `F1=87.96`. So muc
 
 Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, that these are the same logits that gave Jie Yang et.al. only `F1=88.49+-17`.
 
-## Let try All ways to resolve invalid label pairs
+## Lets try ALL ways to resolve invalid label pairs
 
 After spectacular failure with my "best judgement" I inserted all possible entity resolution decisions at each point,
 made concrete decision be governed py "policy" passed to this function, and generated all possible combinations of
