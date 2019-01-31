@@ -126,38 +126,38 @@ def decode_entities(labels):
     for i,l in enumerate(labels):
         if l[:2] == 'B-':
             if pending:
-                ...
+                ...  # decision point B
             else:
                 pending = SimpleNamespace(start=i, end=i+1, label=l[2:])
         elif l[:2] == 'I-':
             if pending is None:
-                ...
+                ...  # decision point I1
             elif pending.label != l[2:]:
-                ...
+                ...  # decision point I2
             else:
                 pending.end += 1
         elif l == 'O':
             if pending is not None:
-                ...
+                ...  # decision point O
         elif l[:2] == 'E-':
             if pending is None:
-                ...
+                ...  # decision E1
             elif pending.label != l[2:]:
-                ...
+                ...  # decision E2
             else:
                 pending.end += 1
                 yield Entity(pending.label, pending.start, pending.end)
                 pending = None
         elif l[:2] == 'S-':
             if pending is not None:
-                ...
+                ...  # decision S
             else:
                 yield Entity(label=l[2:], start=i, end=i+1)
         else:
             raise RuntimeError(f'Unrecognized label: {l}')
 
     if pending:
-        ...
+        ...  # decision F
 ```
 In the sketch above I replaced with `...` all places where we get unexpected transition and need to fix it.
 
@@ -182,11 +182,13 @@ the transition constraints (note that there are no transition weights per se).
 
 If I slap a top CRF layer on top of the neral net, will it help me to avoid invalid labels? It depends.
 
-There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP)[]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing".
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP)[]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
 
 ## Comparing F1 with other results in the literature
 At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. What we are trying to find out is: which system (NN architecture) is better? For me "better" means not F1, but the performance in the production
 setting. For that I really need best logits, not best F1. And best logits is the one that gives best result using Viterbi.
+
+But how do I know how the reported F1 scores were computed?
 
 ## Summary
 
