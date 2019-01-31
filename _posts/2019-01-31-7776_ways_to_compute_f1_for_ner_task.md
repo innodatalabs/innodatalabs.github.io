@@ -195,12 +195,15 @@ the transition constraints (note that there are no transition weights per se).
 
 If I slap a top CRF layer on top of the neral net and train, will it help me to avoid invalid labels? It depends.
 
-There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP][]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie Yang et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
+There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [Constrained CRF of AllenNLP](https://github.com/allenai/allennlp/blob/89729e041f9163988c9fd6f5592258e11956c431/allennlp/modules/conditional_random_field.py#L324). Others allow all transitions, relying on training to discourage bad transitions (e.g. [Jie Yang et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing" or constrained decoding.
+
+From my "purist" view, AllenNLP approach is cleaner: use constrained CRF at train and test time, but this claim is
+not substantiated by experimets.
 
 ## Comparing F1 with other results in the literature
 At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. There is no way to say which F1 is better unless both are computed using the same rules.
 
-But how do I know how the reported F1 scores were computed? Luckily some researches provide code that we can check.
+Here is some roundup of different approaches. This demonstrates the variety.
 
 1. Emma Strubell, Patrick Verga, David Belanger, and Andrew McCallum. 2017. Fast and accurate entity recognition
 with iterated dilated convolutions. In Proceedings of the 2017 Conference on Empirical Methods in Natural
@@ -220,7 +223,9 @@ In NAACL
    
 4. AllenNLP
    
-   For BILOU encoding scheme uses forward search, raising exception on any invalid label [sequence](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L217). For BMES label encoding scheme, uses heuristics to resolve ill-formed [entities](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L376)
+   For BILOU encoding scheme uses forward search, raising exception on any invalid label [sequence](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L217). Apparently, this encoding scheme is only used with constrained CRF top layer.
+   
+   For BMES label encoding scheme, uses heuristics to resolve ill-formed [entities](https://github.com/allenai/allennlp/blob/4674b0182187ef10c54d0578d97f4ba9769a2863/allennlp/data/dataset_readers/dataset_utils/span_utils.py#L376)
 
 ## Summary
 
