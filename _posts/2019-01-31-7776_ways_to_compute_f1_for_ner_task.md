@@ -84,10 +84,10 @@ reported. But maybe it does not matter and heuristics gives the result that is a
 Here is a standard (easy) NER task: [CoNLL2003 challenge](http://aclweb.org/anthology/W03-0419). And here are 
 the SOTA results that cite `F1` scores as the comparison metric: [NLP progress](https://nlpprogress.com/english/named_entity_recognition.html).
 
-I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf), and saved all the logits for the test set.
+I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) and BIOES label encoding scheme. Then I computed logits for all test samples.
 
 Naive computation of labels (`argmax`) gave me `99` invalid label pairs. This is **1.95%** of the total number of 
-"golden" entities in the test set. Hmm, looks like it *may* matter.
+"golden" entities in the test set. Hmm, looks like it *may* matter. Changing a label pair can affect up to three entities.
 
 Now, lets try some heuristics for "fixing" bad transitions.
 
@@ -103,7 +103,7 @@ def decode_entities_jie(labels):
             if pending:
                 yield Entity(pending.label, pending.start, i)
                 pending = None
-            pending = SimpleNamespace(start=i, end=i+1, label=l[2:])
+            pending = SimpleNamespace(start=i, label=l[2:])
         elif l[:2] == 'S-':
             if pending is not None:
                 yield Entity(pending.label, pending.start, i)
@@ -117,6 +117,12 @@ def decode_entities_jie(labels):
     if pending:
         yield Entity(pending.label, pending.start, pending.end)
 ```
+Here, input is a list of predicted labels (possibly containing illegal transitions). This function generates triplets
+of `label`, `start`, `end`. Where `label` is the entity type (`ORG`, `LOC`, `PER` or `MISC` in this task), and (`start, end`) is a span of tokens for this entity.
+
+Note that when there are no illegal transitions, it does compute correct set of entities. We can ally this to "golden"
+labels, then apply to predicted labels and compute `F1` score.
+
 Result is `F1=88.53`. Hmm, sounds pretty good, and right in the interval reported by [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) for the same neural architecture (`F1=88.49+-17`).
 
 Now, note that code above effectively ignores `I` and `O` tags. This does not feel right, right? Right?
@@ -132,14 +138,14 @@ def decode_entities(labels):
             if pending:
                 ...  # decision point B
             else:
-                pending = SimpleNamespace(start=i, end=i+1, label=l[2:])
+                pending = SimpleNamespace(start=i, label=l[2:])
         elif l[:2] == 'I-':
             if pending is None:
                 ...  # decision point I1
             elif pending.label != l[2:]:
                 ...  # decision point I2
             else:
-                pending.end += 1
+                pass
         elif l == 'O':
             if pending is not None:
                 ...  # decision point O
@@ -149,14 +155,13 @@ def decode_entities(labels):
             elif pending.label != l[2:]:
                 ...  # decision E2
             else:
-                pending.end += 1
-                yield Entity(pending.label, pending.start, pending.end)
+                yield Entity(pending.label, pending.start, i + 1)
                 pending = None
         elif l[:2] == 'S-':
             if pending is not None:
                 ...  # decision S
             else:
-                yield Entity(label=l[2:], start=i, end=i+1)
+                yield Entity(label=l[2:], start=i, end=i + 1)
         else:
             raise RuntimeError(f'Unrecognized label: {l}')
 
