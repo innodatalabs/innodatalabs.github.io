@@ -64,7 +64,7 @@ pred = torch.argmax(logits, dim=1)  # [S]
 This makes a "spot" prediction, picking label without any regard for the neighboring labels. This opens up
 the possibility of generating invalid label sequences. Hence we need to "fix" them before decoding entities.
 
-There are many, many ways to do the fixing. If we just look at two labels there are `6^5=7776` of ways to replace invalid label pair with a valid one!
+There are many, many ways to do the fixing. If we just look at two labels there are `6^5=7776` of ways to replace invalid label pair with a valid one (for BIOES scheme)!
 
 What if we are not looking at just two labels, but consider wider context? Well, we will have even more ways to fix! And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
 
