@@ -11,7 +11,7 @@ TL;DR: Computing F1 measure on NER task implies fixing illegal label transitions
 1. IOB - the original one used in the CoNLL2003 dataset. `B-xxx` is only used to split `xxx` entities that are located 
    next to each other.
 2. BIO - here `B-xxx` is used at the start of every entity. This encoding seem to work better that IOB.
-3. BIOES, BILOU - two names for the same encoding (`U <-> S`, `L <-> E`). Single-token entities are marked with `S-xxx`. Multi-token entities are started with `B-xxx`, ends with `E-xxx`, and middle ones filled with `I-xxx`.
+3. BIOES, BILOU - two names for the same encoding (`U <-> S`, `L <-> E`). Single-token entities are marked with `S-xxx`. Multi-token entities are started with `B-xxx`, ends with `E-xxx`, and middle ones filled with `I-xxx`. This scheme (unlike BIO) is symmetric wrt reversal of sequence order. This makes it attractive for BidiLSTM and CNNs - the neural architectures that do not have preferred "direction".
 4. BMES - no clue what this is
 
 Example:
@@ -52,42 +52,47 @@ Each scheme has its own transition rules. Lets look closer at BIOES encoding rul
 
 ## How to decode entities from logits
 
-In most NER systems, after NN does its magic we end up having a logits array of shape `[S, C]`, where S is the length of the sequence, and
-C is the number of possible labels.
-
-From this point we have a choice:
-* to do it "Right" and use Viterbi decoding, finding the best possible label path that (a) obeys transition constraints, and (b) maximises the sum of logits along this path.
-* do it fast and dirty way: compute best local labels (ignoring transition constraints), and then fix the bad transitions.
-
-Typically, people will do the latter. Reasons being:
-* Viterbi is slow
-* Viterbi is hard to get right
-* Just do not know better
+In most NER systems, after NN does its magic we end up having a logits array of shape `[S, C]`, where `S` is the length of the sequence, and `C` is the number of possible labels.
 
 Here is the typical example of computing predictions:
 ```
 logits = ...  # [S, C]
 pred = torch.argmax(logits, dim=1)  # [S]
 ```
-This makes a "spot" prediction, picking label at time `t` without any regard for the neighboring labels.
+This makes a "spot" prediction, picking label at time `t` without any regard for the neighboring labels. This opens up
+the possibility of generating invalid label sequences. Hence we need to "fix" them before decoding entities.
 
 There are many ways to "fix" the predictions. In case of BMES we have `6^5 = 7776` ways of fixing invalid transitions, if
 we are only looking at two labels at a time - current and previous.
 
+What if were not looking at just two labels, but consider wider context? Well, we will have even more ways to aply the fixing. And what if we consider the whole sequence? Well, we really should stop right here and get back to the basics.
+
+What we want is to find the path that
+a. obeys transition constraints, and
+b. maximises the sum of logits along this path
+
+This task is very well known and can be solved in `O(S*C*C)` using classical Viterbi algorithm. Being quadratic in 
+the number of labels, Viterbi can be quite slow. Yet this is the only mathematically optimal way to find entities
+from logits.
+
+A  simpler (and faster to compute) "fixing" heuristic is often used instead of Viterbi decoding, and F1 values are 
+reported. But maybe it does not matter and heuristics gives the result that is as good as Viterbi? Lets check!
+
 ## Does the way of "fixing" matter?
 
-Here is a standard (easy) NER task: [CoNLL2003 challenge](http://aclweb.org/anthology/W03-0419). And here are the SOTA results
-that cite F1 scores as the comparison metric: [NLP progress](https://nlpprogress.com/english/named_entity_recognition.html).
+Here is a standard (easy) NER task: [CoNLL2003 challenge](http://aclweb.org/anthology/W03-0419). And here are 
+the SOTA results that cite F1 scores as the comparison metric: [NLP progress](https://nlpprogress.com/english/named_entity_recognition.html).
 
-I trained a simple GloVe+BidiLSTM model, using training parameters from (???)[???], and saved all the logits for the test set.
+I trained a simple GloVe+BidiLSTM model on English NER task, using training parameters from (Jie Yang et.al.)[https://arxiv.org/pdf/1806.04470.pdf], and saved all the logits for the test set.
 
-Naive computation of labels gave me 99 invalid label pairs. This is 1.95% of the total number of "golden" entities in the test set. Hmm, looks like it may matter.
+Naive computation of labels gave me `99` invalid label pairs. This is **1.95%** of the total number of 
+"golden" entities in the test set. Hmm, looks like it *may* matter.
 
 Using Viterbi decoding, resulted in `F1=89.29`.
 
-Now, lets try some heuristics.
+Now, lets try some heuristics for "fix" bad transitions.
 
-Attempt 1 (close to what is used in [??](??}):
+Attempt 1 (close to what is used in [Jie Yeang et.al.](https://arxiv.org/pdf/1806.04470.pdf):
 ```python
 Entity = collections.namedtuple('Entity', ['label', 'start', 'end'])
 
@@ -113,9 +118,13 @@ def decode_entities_jie_bioes(labels):
     if pending:
         yield Entity(pending.label, pending.start, pending.end)
 ```
-Result is `F1=88.53`. Hmm, very different from Viterbi.
+Result is `F1=88.53`. Hmm, sounds pretty good, and right in the interbal reported by [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) for the same neural architecture (`F1=88.49+-17`).
 
-Note that this code effectively ignores `I` and `O` tags.
+the value very different from Viterbi.
+https://arxiv.org/pdf/1806.04470.pdf
+
+
+Now, note that code above effectively ignores `I` and `O` tags. This does not feel right, right?
 
 Lets try to improve on this, by considering all labels.
 
@@ -159,20 +168,30 @@ def decode_entities(labels):
     if pending:
         ...  # decision F
 ```
-In the sketch above I replaced with `...` all places where we get unexpected transition and need to fix it.
+In the sketch above I replaced with `...` all places where we get unexpected transition and need to fix it. There are total
+8 places in the code where fixes are needed.
 
 I used my "best judgement" to pick the resolution. Result is: `F1=87.96`. So much for the "best judgement".
 
-## Gauging all ways to resolve invalid label pairs
+Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, thatthese are the same logits that gave Jie Yang et.al. only `F1=88.49+-17`.
+
+## Let try All ways to resolve invalid label pairs
 
 After spectacular failure with my "best judgement" I inserted all possible entity resolution decisions at each point,
 made concrete decision be governed py "policy" passed to this function, and generated all possible combinations of
-policy decisions. Got total of 2880 combinations (this is less than maximum possible value of 7776, because some
-bad cases are effectively folded together in the code above).
+policy decisions. Got total of 5760 combinations (this is less than maximum possible value of 7776, because some
+bad cases are effectively folded together in the code above. For example, invalid transitions `I->B` and `B->B`
+are decided in the same place).
+
+Now, lets run all these versions on the logits I have. Result:
 
 Best policy: `F1=88.74`
 
 Worst policy: `F1=87.60`
+
+Interesting. Just using a different ad-hoc code, one can affect the result by more than 1%.
+
+Lets display the range of methods that compute F1 for this NER task:
 
 ![image](https://user-images.githubusercontent.com/14280777/52069939-c76c8c00-254d-11e9-857b-a5e8526e6a08.png)
 
@@ -185,8 +204,7 @@ If I slap a top CRF layer on top of the neral net, will it help me to avoid inva
 There is CRF and there is CRF. Some define top CRF layer in a way that only valid transitions are considered (e.g. [AllenNLP)[]). Others allow all transitions, relying on training to form transition weights that discourage bad ones (e.g. [Jie et al]()). The latter does NOT guarantee that output sequence will be legal. Thus, latter will require "fixing". From my "purist" view, AllenNLP approach is cleaner.
 
 ## Comparing F1 with other results in the literature
-At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. What we are trying to find out is: which system (NN architecture) is better? For me "better" means not F1, but the performance in the production
-setting. For that I really need best logits, not best F1. And best logits is the one that gives best result using Viterbi.
+At least for CoNLL2003 English NER task, comparison of reported F1 scores should be taken with caution. There is no way to say which F1 is better unless both are computed using the same rules.
 
 But how do I know how the reported F1 scores were computed?
 
