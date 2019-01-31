@@ -6,7 +6,7 @@ published: false
 
 ![image](https://user-images.githubusercontent.com/14280777/52080727-7b7a1100-2566-11e9-8223-37004f620aa7.png)
 
-TL;DR: Computing F1 measure on NER task may imply fixing illegal label transitions. There are many ad-hoc ways to do this "fixing". Results can vary widely. Do not do ad-hoc, and use Viterbi decoding on logits.
+**TL;DR**: Computing F1 measure on NER task may imply fixing illegal label transitions. There are many ad-hoc ways to do this "fixing". Results can vary widely. Do not do ad-hoc, and use Viterbi decoding on logits.
 
 ## Entity encoding schemes
 
