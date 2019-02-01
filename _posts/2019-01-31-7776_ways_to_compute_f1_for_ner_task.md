@@ -13,7 +13,7 @@ published: true
 1. IOB - label encoding scheme used in the CoNLL2003 chanllenge. `B-xxx` is only used to split `xxx` entities that are located 
    next to each other.
 2. BIO - here `B-xxx` is used at the start of every entity. This encoding seem to work better than IOB.
-3. BIOES, BILOU - two names for the same encoding (`U <-> S`, `L <-> E`). Single-token entities are marked with `S-xxx`. Multi-token entities are started with `B-xxx`, ends with `E-xxx`, and middle ones filled with `I-xxx`. This scheme (unlike BIO) is symmetric wrt reversal of sequence order. This makes it attractive for BidiLSTM and CNNs - the neural architectures that do not have preferred "direction".
+3. BIOES, BILOU - two names for the same encoding (`U <-> S`, `L <-> E`). Single-token entities are marked with `S-xxx`. Multi-token entities are started with `B-xxx`, end with `E-xxx`, and middle ones filled with `I-xxx`. This scheme (unlike BIO) is symmetric wrt reversal of sequence order. This makes it attractive for BidiLSTM and CNNs - the neural architectures that do not have preferred "direction".
 4. BMES - no clue what this is
 
 Example:
