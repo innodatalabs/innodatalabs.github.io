@@ -193,7 +193,7 @@ Lets display the range of `F1` scores for this NER task:
 
 ![image](https://user-images.githubusercontent.com/14280777/52069939-c76c8c00-254d-11e9-857b-a5e8526e6a08.png)
 
-## Side Note 1: Top CRF layer does not (always) guarantee good labels
+### Side Note: Top CRF layer does not (always) guarantee good labels
 First, note that using Viterbi decoding on logits has nothing to do with CRF. Here, the purpose of Viterbi is just to enforce
 the transition constraints (note that there are no transition weights per se).
 
