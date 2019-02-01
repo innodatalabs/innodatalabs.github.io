@@ -23,14 +23,9 @@ Ben was in New York City on Monday
 
 IOB:
 ```
-Ben/I-PER was/O in/O New/I-LOC York/I-LOC City/I-LOC on/O Monday/O
-```
-Here I used suffix notation to show label of each word. For clarity, I will omit `/O` from now on:
-
-IOB:
-```
 Ben/I-PER was in New/I-LOC York/I-LOC City/I-LOC on Monday
 ```
+Here I used suffix notation to show label of each word. For clarity, I omit `/O` suffix.
 
 BIO:
 ```
