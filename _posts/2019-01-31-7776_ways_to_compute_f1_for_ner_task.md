@@ -1,7 +1,7 @@
 ---
 title: 7776 ways to compute F1 for an NER task
 author: Mike Kroutikov
-published: false
+published: true
 ---
 
 ![image](https://user-images.githubusercontent.com/14280777/52080727-7b7a1100-2566-11e9-8223-37004f620aa7.png)
