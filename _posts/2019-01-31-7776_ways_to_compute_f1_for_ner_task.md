@@ -197,7 +197,7 @@ Lets display the range of `F1` scores for this NER task:
 First, note that using Viterbi decoding on logits has nothing to do with CRF. Here, the purpose of Viterbi is just to enforce
 the transition constraints (note that there are no transition weights per se).
 
-If I slap a top CRF layer on top of the neral net and train, will it help me to avoid invalid labels?
+If I slap a CRF layer on top of the neral net and train, will it help me to avoid invalid labels?
 
 It depends.
 
