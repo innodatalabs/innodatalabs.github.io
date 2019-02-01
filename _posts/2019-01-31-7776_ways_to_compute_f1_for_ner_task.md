@@ -105,8 +105,8 @@ def decode_entities_jie(labels):
                 pending = None
             yield Entity(label=l[2:], start=i, end=i+1)
         elif l[:2] == 'E-':
-            if pending is not None:  # jie does not check if B- uses the same label!
-                yield Entity(pending.label, pending.start, i + 1)
+            if pending is not None:  # no check for the same label!?
+                yield Entity(pending.label, pending.start, i+1)
                 pending = None
 
     if pending:
@@ -155,13 +155,13 @@ def decode_entities(labels):
             elif pending.label != l[2:]:
                 ...  # decision E2
             else:
-                yield Entity(pending.label, pending.start, i + 1)
+                yield Entity(pending.label, pending.start, i+1)
                 pending = None
         elif l[:2] == 'S-':
             if pending is not None:
                 ...  # decision S
             else:
-                yield Entity(label=l[2:], start=i, end=i + 1)
+                yield Entity(label=l[2:], start=i, end=i+1)
         else:
             raise RuntimeError(f'Unrecognized label: {l}')
 
