@@ -123,7 +123,7 @@ for a detailed review see [David Nadeau's thesis](http://www.forensicswiki.org/w
 
 Result of computing F1 is `F1=88.53`. 
 
-Hmm, sounds pretty good, and right in the interval reported by [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) for the same neural architecture (`F1=88.49+-17`).
+Hmm, sounds pretty good, and right in the interval reported by [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) for the same neural architecture (`F1=88.49 +-0.17`).
 
 Now, note that code above effectively ignores `I` and `O` tags. This does not feel right, right? Right?
 
@@ -176,7 +176,7 @@ I used my "best judgement" to pick the resolution. Result is: `F1=87.96`. So muc
 ![image](https://user-images.githubusercontent.com/14280777/52084674-918ccf00-2570-11e9-8463-82bca87a1356.png)
 
 ### Viterbi to the rescue
-Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, that these are the same logits that gave Jie Yang et al only `F1=88.49+-17`.
+Lets forget about ad-hoc fixing and use Viterbi to decode. Result: `F1=89.29`. Wow! Let me stress, that these are the same logits that gave Jie Yang et al only `F1=88.49`.
 
 ## Lets try ALL ways to resolve invalid label pairs
 
