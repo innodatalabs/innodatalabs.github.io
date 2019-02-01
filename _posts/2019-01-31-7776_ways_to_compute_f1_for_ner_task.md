@@ -120,7 +120,7 @@ def decode_entities_jie(labels):
 Here, input is a list of predicted labels (possibly containing illegal transitions). This function generates triplets
 of `label`, `start`, `end`. Where `label` is the entity type (`ORG`, `LOC`, `PER` or `MISC` in this task), and (`start, end`) is a span of tokens for this entity.
 
-Note that when there are no illegal transitions, it does compute correct set of entities. We can ally this to "golden"
+Note that when there are no illegal transitions, it does compute the correct set of entities. We can apply this to "golden"
 labels, then apply to predicted labels and compute `F1` score.
 
 Result is `F1=88.53`. Hmm, sounds pretty good, and right in the interval reported by [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf) for the same neural architecture (`F1=88.49+-17`).
