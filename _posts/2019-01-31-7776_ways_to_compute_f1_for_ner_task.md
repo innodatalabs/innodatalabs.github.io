@@ -88,7 +88,8 @@ Now, lets try some heuristics for "fixing" bad transitions.
 
 Attempt 1 (close to what is used in [Jie Yang et al](https://arxiv.org/pdf/1806.04470.pdf)):
 ```python
-Entity = collections.namedtuple('Entity', ['label', 'start', 'end'])
+Entity = collections.namedtuple(
+    'Entity', ['label', 'start', 'end'])
 
 def decode_entities_jie(labels):
     pending = None
