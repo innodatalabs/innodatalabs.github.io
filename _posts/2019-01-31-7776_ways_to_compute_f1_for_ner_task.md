@@ -106,7 +106,7 @@ def decode_entities_jie(labels):
                 pending = None
             yield Entity(label=l[2:], start=i, end=i+1)
         elif l[:2] == 'E-':
-            if pending is not None:  # no check for the same label!?
+            if pending is not None:
                 yield Entity(pending.label, pending.start, i+1)
                 pending = None
 
