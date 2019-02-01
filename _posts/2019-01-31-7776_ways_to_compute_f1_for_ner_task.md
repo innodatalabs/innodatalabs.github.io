@@ -18,7 +18,7 @@ published: true
 
 Example:
 ```
-Ben was in New Your City on Monday
+Ben was in New York City on Monday
 ```
 
 IOB:
