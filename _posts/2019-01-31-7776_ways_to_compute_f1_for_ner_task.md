@@ -224,7 +224,7 @@ Language Processing, pages 2670–2680.
 Neural architectures for named entity recognition.
 In NAACL
    
-   Converts BIOES labels back to IOB labels and uses Perl script to [score](https://github.com/glample/tagger/blob/master/evaluation/conlleval)
+   Converts BIOES labels back to IOB labels and uses official CoNLL Perl script to [score](https://github.com/glample/tagger/blob/master/evaluation/conlleval)
 
 3. Jie Yang, Shuailong Liang, Yue Zhang. 2018. Design Challenges and Misconceptions in Neural Sequence Labeling
 
